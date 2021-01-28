@@ -5,6 +5,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/uikit.min.css" />
+        <link rel="stylesheet" href="css/styles.css"/>
         <script src="js/uikit.min.js"></script>
         <script src="js/uikit-icons.min.js"></script>
     </head>
@@ -14,6 +15,10 @@
             <div class="uk-flex uk-flex-column uk-width-1-3" style="text-align: center;">
                 <div class="uk-card uk-card-default uk-card-body">Generate mnemonic <div uk-tooltip="Refresh"><span class="uk-margin-small-right" uk-icon="refresh"></span></div></div>
                 <div class="uk-card uk-card-default uk-card-body uk-margin-top">HD Private Key <div uk-tooltip="Copy"><span class="uk-margin-small-right" uk-icon="copy"></span></div></div>
+                <p>Choose derivation path... (M/44'/0'/X')</p>
+                <div class="slidecontainer">
+                    <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+                  </div>
                 <div class="uk-card uk-card-default uk-card-body uk-margin-top">Private Key <span class="uk-margin-small-right" uk-icon="copy"></span></div>
                 <div class="uk-card uk-card-default uk-card-body uk-margin-top">Public Key <span class="uk-margin-small-right" uk-icon="copy"></span></div>
                 <div class="uk-card uk-card-default uk-card-body uk-margin-top">Address <span class="uk-margin-small-right" uk-icon="copy"></span></div>
@@ -32,6 +37,16 @@
             
         
 
+        <script>
+            var slider = document.getElementById("myRange");
+            var output = document.getElementById("demo");
+            output.innerHTML = slider.value; // Display the default slider value
 
+            // Update the current slider value (each time you drag the slider handle)
+            slider.oninput = function() {
+            output.innerHTML = this.value;
+            }
+        </script>
     </body>
+
 </html>
