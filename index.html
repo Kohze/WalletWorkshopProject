@@ -1,60 +1,137 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Bitcoin Wallet</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="css/uikit.min.css" />
-        <link rel="stylesheet" href="css/styles.css"/>
-        <script src="js/uikit.min.js"></script>
-        <script src="js/uikit-icons.min.js"></script>
-    </head>
-    <body>
-        <nav class="uk-navbar-container" uk-navbar>
-            <div class="uk-navbar-center">
-                <ul class="uk-navbar-nav">
-                    <li><a href="#">Bitcoin Wallet Workshop</a></li>
-                </ul>
-        
-            </div>
-        </nav>
-        <div class="uk-child-width-expand@s" uk-grid style="margin-top: 50px; margin-left: 100px;">
-            <div class="uk-flex uk-flex-column uk-width-1-3" style="text-align: center;">
-                
-                <div class="uk-card uk-card-default uk-card-body uk-card-small">Generate mnemonic<span class="uk-margin-small-right" uk-icon="refresh"></span></div>
-                <div class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small">HD Private Key <span class="uk-margin-small-right" uk-icon="copy"></span></div>
-                <p>Choose derivation path... (M/44'/0'/X')</p>
-                <div class="slidecontainer">
-                    <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-                </div>
-                <div class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small">Private Key <span class="uk-margin-small-right" uk-icon="copy"></span></div>
-                <div class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small">Public Key <span class="uk-margin-small-right" uk-icon="copy"></span></div>
-                <div class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small">Address <span class="uk-margin-small-right" uk-icon="copy"></span></div>
-            </div>
-            <div class="uk-flex uk-flex-column uk-width-1-3" style="margin-left: 100px; text-align: center;">
-                <img style="margin-top: 75px;" data-src="img/Bitcoinp2p.svg" width="800" height=600 alt="" uk-img>
-            </div>
-            <!---
+  <head>
+    <title>Bitcoin Wallet</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/uikit.min.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="js/uikit.min.js"></script>
+    <script src="js/uikit-icons.min.js"></script>
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/bsv@0.30.0/bsv.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"
+    ></script>
+
+    <script
+      type="text/javascript"
+      src="CryptoJS.AES.encrypt(privateKey.toString(), password)"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/bsv@1.5.0/bsv-mnemonic.min.js"
+    ></script>
+
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/axios/dist/axios.min.js"
+    ></script>
+  </head>
+  <body>
+    <nav class="uk-navbar-container" uk-navbar>
+      <div class="uk-navbar-center">
+        <ul class="uk-navbar-nav">
+          <li><a href="#">Bitcoin Wallet Workshop</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div
+      class="uk-child-width-expand@s"
+      uk-grid
+      style="margin-top: 75px; margin-left: 100px"
+    >
+      <div
+        class="uk-flex uk-flex-column uk-width-1-3"
+        style="text-align: center"
+      >
+        <div class="uk-card uk-card-default uk-card-body">
+          Generate mnemonic
+          <div uk-tooltip="Refresh">
+            <span
+              class="uk-margin-small-right"
+              uk-icon="refresh"
+              id="generateMnemonic"
+            ></span>
+          </div>
+        </div>
+        <div class="uk-card uk-card-default uk-card-body uk-margin-top">
+          HD Private Key
+          <div uk-tooltip="Copy">
+            <span
+              class="uk-margin-small-right"
+              uk-icon="copy"
+              id="hdPrivateKey"
+            ></span>
+            <p id="hdPrivateKeyText">-----</p>
+          </div>
+        </div>
+        <p id="sliderText">Choose derivation path... (M/44'/0'/X')</p>
+        <div class="slidecontainer">
+          <input
+            type="range"
+            min="1"
+            max="100"
+            value="10"
+            class="slider"
+            id="myRange"
+          />
+        </div>
+        <div class="uk-card uk-card-default uk-card-body uk-margin-top">
+          Private Key
+          <span
+            class="uk-margin-small-right"
+            uk-icon="copy"
+            id="privateKey"
+          ></span>
+          <p id="privateKeyText">-----</p>
+        </div>
+        <div class="uk-card uk-card-default uk-card-body uk-margin-top">
+          Public Key
+          <span
+            class="uk-margin-small-right"
+            uk-icon="copy"
+            id="publicKey"
+          ></span>
+          <p id="publicKeyText">-----</p>
+        </div>
+        <div class="uk-card uk-card-default uk-card-body uk-margin-top">
+          Address
+          <span
+            class="uk-margin-small-right addressDiv"
+            uk-icon="copy"
+            id="addressDiv"
+          ></span>
+          <p id="addressText">-----</p>
+        </div>
+      </div>
+      <div
+        class="uk-flex uk-flex-column uk-width-1-3"
+        style="margin-left: 100px; margin-top: 100px"
+      >
+        <img
+          data-src="img/Bitcoinp2p.svg"
+          width="800"
+          height="600"
+          alt=""
+          uk-img
+        />
+      </div>
+      <div class="uk-card uk-card-default uk-card-body" id="walletOutputText">
+        OutputText
+      </div>
+      <!---
             <div class="uk-grid-item-match">
                 <div class="uk-card uk-card-default uk-card-body">
                     <img data-src="img/illustration-centi-3-1-1024x854.png" width="800" height=600 alt="" uk-img>
                 </div>
              </div>
              -->
-        </div>
-            
-        
+    </div>
 
-        <script>
-            var slider = document.getElementById("myRange");
-            var output = document.getElementById("demo");
-            output.innerHTML = slider.value; // Display the default slider value
-
-            // Update the current slider value (each time you drag the slider handle)
-            slider.oninput = function() {
-            output.innerHTML = this.value;
-            }
-        </script>
-    </body>
-
+    <script src="js/script.js"></script>
+  </body>
 </html>
