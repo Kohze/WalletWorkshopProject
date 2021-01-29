@@ -11,26 +11,25 @@
     </head>
     <body>
         <nav class="uk-navbar-container" uk-navbar>
-            <div class="uk-navbar-left">
+            <div class="uk-navbar-center">
                 <ul class="uk-navbar-nav">
                     <li><a href="#">Bitcoin Wallet Workshop</a></li>
-                    <button style="margin: auto;" class="uk-button uk-button-small uk-button-default">Send Bitcoin</button>
-                    <button style="margin: auto;" class="uk-button uk-button-small uk-button-default">Receive Bitcoin</button>
                 </ul>
         
             </div>
         </nav>
         <div class="uk-child-width-expand@s" uk-grid style="margin-top: 50px; margin-left: 100px;">
             <div class="uk-flex uk-flex-column uk-width-1-3" style="text-align: center;">
+                
+                <div class="uk-card uk-card-default uk-card-body uk-card-small">Generate mnemonic<span class="uk-margin-small-right" uk-icon="refresh"></span></div>
+                <div class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small">HD Private Key <span class="uk-margin-small-right" uk-icon="copy"></span></div>
                 <p>Choose derivation path... (M/44'/0'/X')</p>
                 <div class="slidecontainer">
                     <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
                 </div>
-                <div class="uk-card uk-card-default uk-card-body">Generate mnemonic <div uk-tooltip="Refresh"><span class="uk-margin-small-right" uk-icon="refresh"></span></div></div>
-                <div class="uk-card uk-card-default uk-card-body uk-margin-top">HD Private Key <div uk-tooltip="Copy"><span class="uk-margin-small-right" uk-icon="copy"></span></div></div>
-                <div class="uk-card uk-card-default uk-card-body uk-margin-top">Private Key <span class="uk-margin-small-right" uk-icon="copy"></span></div>
-                <div class="uk-card uk-card-default uk-card-body uk-margin-top">Public Key <span class="uk-margin-small-right" uk-icon="copy"></span></div>
-                <div class="uk-card uk-card-default uk-card-body uk-margin-top">Address <span class="uk-margin-small-right" uk-icon="copy"></span></div>
+                <div class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small">Private Key <span class="uk-margin-small-right" uk-icon="copy"></span></div>
+                <div class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small">Public Key <span class="uk-margin-small-right" uk-icon="copy"></span></div>
+                <div class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small">Address <span class="uk-margin-small-right" uk-icon="copy"></span></div>
             </div>
             <div class="uk-flex uk-flex-column uk-width-1-3" style="margin-left: 100px; text-align: center;">
                 <img style="margin-top: 75px;" data-src="img/Bitcoinp2p.svg" width="800" height=600 alt="" uk-img>
