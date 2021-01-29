@@ -30,6 +30,7 @@ const hdPrivateKeyText = document.getElementById("hdPrivateKeyText");
 const privateKeyText = document.getElementById("privateKeyText");
 const publicKeyText = document.getElementById("publicKeyText");
 const addressText = document.getElementById("addressText");
+const mnemPopUp = document.getElementById("mnemPopUp");
 
 // add refresh functionality currently just displays the seed after click
 // add modal for seed
@@ -37,14 +38,14 @@ const addressText = document.getElementById("addressText");
 // use a transaction flow chart for improved design?
 
 generateDiv.addEventListener("click", function () {
-  walletOutput.innerHTML = JSON.stringify(seedWords.phrase);
+  mnemPopUp.innerHTML = JSON.stringify(seedWords.phrase);
   console.log("clicked generate mnemonic");
 });
 
 hdPrivateKeyDiv.addEventListener("click", function () {
   walletOutput.innerHTML = hdPrivateKeyFromSeed.toString();
   let el = hdPrivateKeyFromSeed.toString();
-  el = el.slice(0, 8) + "....";
+  //el = el.slice(0, 8) + "....";
 
   hdPrivateKeyText.innerHTML = el;
   console.log("clicked HDprivate key");
@@ -53,7 +54,7 @@ hdPrivateKeyDiv.addEventListener("click", function () {
 privateKeyDiv.addEventListener("click", function () {
   walletOutput.innerHTML = privateKeyFromXprv.toString();
   let el = privateKeyFromXprv.toString();
-  el = el.slice(0, 8) + "....";
+  //el = el.slice(0, 8) + "....";
   privateKeyText.innerHTML = el;
   console.log("clicked privateKey");
 });
@@ -61,7 +62,7 @@ privateKeyDiv.addEventListener("click", function () {
 publicKeyDiv.addEventListener("click", function () {
   walletOutput.innerHTML = pubKey.toString();
   let el = pubKey.toString();
-  el = el.slice(0, 8) + "....";
+  //el = el.slice(0, 8) + "....";
   publicKeyText.innerHTML = el;
   console.log("clicked publicKey");
 });
@@ -69,7 +70,7 @@ publicKeyDiv.addEventListener("click", function () {
 addressDiv.addEventListener("click", function () {
   walletOutput.innerHTML = addressFromPub.toString();
   let el = addressFromPub.toString();
-  el = el.slice(0, 8) + "....";
+  //el = el.slice(0, 8) + "....";
   addressText.innerHTML = el;
   console.log("clicked address");
 });

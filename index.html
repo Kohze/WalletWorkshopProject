@@ -48,26 +48,27 @@
         class="uk-flex uk-flex-column uk-width-1-3"
         style="text-align: center"
       >
-        <div class="uk-card uk-card-default uk-card-body">
+        <div class="uk-card uk-card-default uk-card-body uk-card-small">
           Generate mnemonic
-          <div uk-tooltip="Refresh">
+          
             <span
+              uk-toggle="target: #modal-example"
               class="uk-margin-small-right"
               uk-icon="refresh"
               id="generateMnemonic"
             ></span>
-          </div>
+          
         </div>
-        <div class="uk-card uk-card-default uk-card-body uk-margin-top">
+        <div class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small">
           HD Private Key
-          <div uk-tooltip="Copy">
+          
             <span
               class="uk-margin-small-right"
               uk-icon="copy"
               id="hdPrivateKey"
             ></span>
-            <p id="hdPrivateKeyText">-----</p>
-          </div>
+            <p id="hdPrivateKeyText" style="word-wrap: break-word;">-----</p>
+          
         </div>
         <p id="sliderText">Choose derivation path... (M/44'/0'/X')</p>
         <div class="slidecontainer">
@@ -80,7 +81,7 @@
             id="myRange"
           />
         </div>
-        <div class="uk-card uk-card-default uk-card-body uk-margin-top">
+        <div class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small">
           Private Key
           <span
             class="uk-margin-small-right"
@@ -89,14 +90,14 @@
           ></span>
           <p id="privateKeyText">-----</p>
         </div>
-        <div class="uk-card uk-card-default uk-card-body uk-margin-top">
+        <div class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small">
           Public Key
           <span
             class="uk-margin-small-right"
             uk-icon="copy"
             id="publicKey"
           ></span>
-          <p id="publicKeyText">-----</p>
+          <p id="publicKeyText" style="word-wrap: break-word;">-----</p>
         </div>
         <div class="uk-card uk-card-default uk-card-body uk-margin-top">
           Address
@@ -131,6 +132,16 @@
              </div>
              -->
     </div>
+
+    <div id="modal-example" uk-modal>
+      <div class="uk-modal-dialog uk-modal-body" style="margin-top: 30vh;">
+          <h2 class="uk-modal-title">Write down your mnemonic phrase:</h2>
+          <p id="mnemPopUp"></p>
+          <p class="uk-text-right">
+              <button class="uk-button uk-button-default uk-modal-close" type="button">Close</button>
+          </p>
+      </div>
+  </div>
 
     <script src="js/script.js"></script>
   </body>
