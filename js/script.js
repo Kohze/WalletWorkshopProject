@@ -18,7 +18,7 @@ let seedWords = mnemonic.fromRandom();
 const hdPrivateKeyFromSeed = bsv.HDPrivateKey.fromSeed(seedWords.toSeed());
 
 //UI elements
-const generateDiv = document.getElementById("generateMnemonic");
+const generateDiv = document.getElementById("mnemonicDiv");
 const hdPrivateKeyDiv = document.getElementById("hdPrivateKey");
 const privateKeyDiv = document.getElementById("privateKey");
 const publicKeyDiv = document.getElementById("publicKey");
@@ -26,11 +26,11 @@ const addressDiv = document.getElementById("addressDiv");
 const walletOutput = document.getElementById("walletOutputText");
 const sliderText = document.getElementById("sliderText");
 const slider = document.getElementById("myRange");
+const mnemonicText = document.getElementById("mnemonicText");
 const hdPrivateKeyText = document.getElementById("hdPrivateKeyText");
 const privateKeyText = document.getElementById("privateKeyText");
 const publicKeyText = document.getElementById("publicKeyText");
 const addressText = document.getElementById("addressText");
-const mnemPopUp = document.getElementById("mnemPopUp");
 
 // add refresh functionality currently just displays the seed after click
 // add modal for seed
@@ -38,12 +38,15 @@ const mnemPopUp = document.getElementById("mnemPopUp");
 // use a transaction flow chart for improved design?
 
 generateDiv.addEventListener("click", function () {
-  mnemPopUp.innerHTML = JSON.stringify(seedWords.phrase);
+  mnemonicText.innerHTML = seedWords.phrase.toString();
   console.log("clicked generate mnemonic");
+  //let el = hdPrivateKeyFromSeed.toString();
+  //el = el.slice(0, 8) + "....";
+  //hdPrivateKeyText.innerHTML = el;
 });
 
 hdPrivateKeyDiv.addEventListener("click", function () {
-  walletOutput.innerHTML = hdPrivateKeyFromSeed.toString();
+  hdPrivateKeyText.innerHTML = hdPrivateKeyFromSeed.toString();
   let el = hdPrivateKeyFromSeed.toString();
   //el = el.slice(0, 8) + "....";
 
@@ -52,7 +55,7 @@ hdPrivateKeyDiv.addEventListener("click", function () {
 });
 
 privateKeyDiv.addEventListener("click", function () {
-  walletOutput.innerHTML = privateKeyFromXprv.toString();
+  privateKeyText.innerHTML = privateKeyFromXprv.toString();
   let el = privateKeyFromXprv.toString();
   //el = el.slice(0, 8) + "....";
   privateKeyText.innerHTML = el;
@@ -60,7 +63,7 @@ privateKeyDiv.addEventListener("click", function () {
 });
 
 publicKeyDiv.addEventListener("click", function () {
-  walletOutput.innerHTML = pubKey.toString();
+  publicKeyText.innerHTML = pubKey.toString();
   let el = pubKey.toString();
   //el = el.slice(0, 8) + "....";
   publicKeyText.innerHTML = el;
@@ -68,7 +71,7 @@ publicKeyDiv.addEventListener("click", function () {
 });
 
 addressDiv.addEventListener("click", function () {
-  walletOutput.innerHTML = addressFromPub.toString();
+  addressText.innerHTML = addressFromPub.toString();
   let el = addressFromPub.toString();
   //el = el.slice(0, 8) + "....";
   addressText.innerHTML = el;

@@ -1,3 +1,11 @@
+.cardColour {
+  background-color: rgb(236, 236, 236);
+}
+
+.iconRight {
+  float: right;
+}
+
 .slidecontainer {
   width: 100%; /* Width of the outside container */
 }
@@ -26,7 +34,7 @@
   appearance: none;
   width: 25px; /* Set a specific slider handle width */
   height: 25px; /* Slider handle height */
-  background: #4caf50; /* Green background */
+  background: #383838; /* Green background */
   cursor: pointer; /* Cursor on hover */
 }
 

@@ -38,37 +38,25 @@
           <li><a href="#">Bitcoin Wallet Workshop</a></li>
         </ul>
       </div>
-    </nav>
-    <div
-      class="uk-child-width-expand@s"
-      uk-grid
-      style="margin-top: 75px; margin-left: 100px"
-    >
-      <div
-        class="uk-flex uk-flex-column uk-width-1-3"
-        style="text-align: center"
-      >
-        <div class="uk-card uk-card-default uk-card-body uk-card-small">
+</nav>
+<div class="uk-child-width-expand@s" uk-grid style="margin-top: 50px;">
+    <div class="uk-grid-item-match" style="text-align: center;">
+        <div id="mnemonicDiv" class="uk-card uk-card-default uk-card-body uk-card-small cardColour">
           Generate mnemonic
-          
             <span
-              uk-toggle="target: #modal-example"
-              class="uk-margin-small-right"
+              class="uk-margin-small-right iconRight"
               uk-icon="refresh"
-              id="generateMnemonic"
+              style="float: right;"
             ></span>
-          
+            <p id="mnemonicText" style="word-wrap: break-word;">-----</p>
         </div>
-        <div class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small">
+        <div id="hdPrivateKey" class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small cardColour">
           HD Private Key
-          
             <span
-              class="uk-margin-small-right"
+              class="uk-margin-small-right iconRight"
               uk-icon="copy"
-              id="hdPrivateKey"
             ></span>
             <p id="hdPrivateKeyText" style="word-wrap: break-word;">-----</p>
-          
         </div>
         <p id="sliderText">Choose derivation path... (M/44'/0'/X')</p>
         <div class="slidecontainer">
@@ -81,67 +69,35 @@
             id="myRange"
           />
         </div>
-        <div class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small">
+        <div id="privateKey" class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small cardColour">
           Private Key
           <span
-            class="uk-margin-small-right"
+            class="uk-margin-small-right iconRight"
             uk-icon="copy"
-            id="privateKey"
           ></span>
-          <p id="privateKeyText">-----</p>
+          <p id="privateKeyText" style="word-wrap: break-word;">-----</p>
         </div>
-        <div class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small">
+        <div id="publicKey" class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small cardColour">
           Public Key
           <span
-            class="uk-margin-small-right"
+            class="uk-margin-small-right iconRight"
             uk-icon="copy"
-            id="publicKey"
           ></span>
           <p id="publicKeyText" style="word-wrap: break-word;">-----</p>
         </div>
-        <div class="uk-card uk-card-default uk-card-body uk-margin-top">
+        <div id="addressDiv" class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small cardColour">
           Address
           <span
-            class="uk-margin-small-right addressDiv"
+            class="uk-margin-small-right iconRight"
             uk-icon="copy"
-            id="addressDiv"
           ></span>
-          <p id="addressText">-----</p>
+          <p id="addressText" style="word-wrap: break-word;">-----</p>
         </div>
       </div>
-      <div
-        class="uk-flex uk-flex-column uk-width-1-3"
-        style="margin-left: 100px; margin-top: 100px"
-      >
-        <img
-          data-src="img/Bitcoinp2p.svg"
-          width="800"
-          height="600"
-          alt=""
-          uk-img
-        />
-      </div>
-      <div class="uk-card uk-card-default uk-card-body" id="walletOutputText">
-        OutputText
-      </div>
-      <!---
-            <div class="uk-grid-item-match">
-                <div class="uk-card uk-card-default uk-card-body">
-                    <img data-src="img/illustration-centi-3-1-1024x854.png" width="800" height=600 alt="" uk-img>
-                </div>
-             </div>
-             -->
+    <div style="margin-left: 10vw;">
+      <img data-src="img/bitcoinArt.svg" width="500" height="" alt="" uk-img>
     </div>
-
-    <div id="modal-example" uk-modal>
-      <div class="uk-modal-dialog uk-modal-body" style="margin-top: 30vh;">
-          <h2 class="uk-modal-title">Write down your mnemonic phrase:</h2>
-          <p id="mnemPopUp"></p>
-          <p class="uk-text-right">
-              <button class="uk-button uk-button-default uk-modal-close" type="button">Close</button>
-          </p>
-      </div>
-  </div>
+</div>
 
     <script src="js/script.js"></script>
   </body>
