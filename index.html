@@ -38,66 +38,118 @@
           <li><a href="#">Bitcoin Wallet Workshop</a></li>
         </ul>
       </div>
-</nav>
-<div class="uk-child-width-expand@s" uk-grid style="margin-top: 50px; overflow: hidden;">
-    <div class="uk-grid-item-match" style="text-align: center;">
-        <div id="mnemonicDiv" class="uk-card uk-card-default uk-card-body uk-card-small cardColour">
+    </nav>
+    <div
+      class="uk-child-width-expand@s"
+      uk-grid
+      style="margin-top: 50px; overflow: hidden"
+    >
+      <div class="uk-grid-item-match" style="text-align: center">
+        <div
+          class="uk-card uk-card-default uk-card-body uk-card-small cardColour"
+        >
           Generate mnemonic
-            <span
-              class="uk-margin-small-right iconRight"
-              uk-icon="refresh"
-              style="float: right;"
-            ></span>
-            <p id="mnemonicText" style="word-wrap: break-word;">-----</p>
+          <span
+            class="uk-margin-small-right iconRight"
+            uk-icon="refresh"
+            style="float: right"
+            id="newMnemonic"
+          ></span>
+          <form action="">
+            <input
+              type="text"
+              id="mnemonicText"
+              style="word-wrap: break-word"
+              value=""
+            />
+          </form>
         </div>
-        <div id="hdPrivateKey" class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small cardColour">
+        <div
+          id="hdPrivateKey"
+          class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small cardColour"
+        >
           HD Private Key
-            <span
-              class="uk-margin-small-right iconRight"
-              uk-icon="copy"
-            ></span>
-            <p id="hdPrivateKeyText" style="word-wrap: break-word;">-----</p>
+          <span
+            class="uk-margin-small-right iconRight"
+            uk-icon="copy"
+            id="copyHdprivate"
+            onclick="copyHD()"
+          ></span>
+          <form action="">
+            <input
+              type="text"
+              id="hdPrivateKeyText"
+              style="word-wrap: break-word"
+              value=""
+            />
+          </form>
         </div>
-        <p id="sliderText">Choose derivation path... (M/44'/0'/X')</p>
+        <p id="sliderText">Choose derivation path... (M/44'/0'/0')</p>
         <div class="slidecontainer">
           <input
             type="range"
-            min="1"
-            max="100"
-            value="10"
+            min="0"
+            max="99"
+            value="0"
             class="slider"
-            id="myRange"
+            id="range"
           />
         </div>
-        <div id="privateKey" class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small cardColour">
+        <div
+          id="privateKey"
+          class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small cardColour"
+        >
           Private Key
           <span
             class="uk-margin-small-right iconRight"
             uk-icon="copy"
+            onclick="copyPrivK()"
           ></span>
-          <p id="privateKeyText" style="word-wrap: break-word;">-----</p>
+          <form action="">
+            <input
+              type="text"
+              id="privateKeyText"
+              style="word-wrap: break-word"
+              value=""
+            />
+          </form>
+          <!--<p id="privateKeyText" style="word-wrap: break-word">-----</p>-->
         </div>
-        <div id="publicKey" class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small cardColour">
+        <div
+          id="publicKey"
+          class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small cardColour"
+        >
           Public Key
           <span
             class="uk-margin-small-right iconRight"
             uk-icon="copy"
+            onclick="copyPubK()"
           ></span>
-          <p id="publicKeyText" style="word-wrap: break-word;">-----</p>
+          <p id="publicKeyText" style="word-wrap: break-word">-----</p>
         </div>
-        <div id="addressDiv" class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small cardColour">
+        <div
+          id="addressDiv"
+          class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small cardColour"
+        >
           Address
           <span
             class="uk-margin-small-right iconRight"
             uk-icon="copy"
+            onclick="copyAdd()"
           ></span>
-          <p id="addressText" style="word-wrap: break-word;">-----</p>
+          <p id="addressText" style="word-wrap: break-word">-----</p>
         </div>
       </div>
-    <div style="margin-left: 10vw;">
-      <img data-src="img/bitcoinArt.svg" width="500" height="" alt="" uk-img>
+      <div style="margin-left: 10vw">
+        <img
+          data-src="img/bitcoinArt.svg"
+          width="500"
+          height=""
+          alt=""
+          uk-img
+        />
+      </div>
     </div>
-</div>
 
     <script src="js/script.js"></script>
   </body>

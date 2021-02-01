@@ -44,12 +44,10 @@
   background: #4caf50; /* Green background */
   cursor: pointer; /* Cursor on hover */
 }
-#walletOutputText {
-  margin-right: 40%;
-  margin-left: 40%;
-  margin-top: 38%;
-  margin-bottom: 0%;
-  width: 60%;
-  font-size: small;
-  position: absolute;
+#privateKeyText,
+#hdPrivateKeyText,
+#mnemonicText {
+  width: 450px;
+  text-align: center;
+  padding: 3px;
 }

@@ -1,95 +1,89 @@
 //bsv.js functions
-const privKey = bsv.PrivateKey.fromRandom();
-const pubKey = bsv.PublicKey.fromPrivateKey(privKey);
-const addressFromPub = bsv.Address.fromPublicKey(pubKey).toString();
-const addressFromPriv = bsv.Address.fromPrivateKey(privKey).toString();
-const addressCode = "bitcoinsv:" + addressFromPriv;
-const hdPrivateKey = bsv.HDPrivateKey.fromString("");
-const privateKeyStandard = hdPrivateKey.deriveChild("m/44'/0'/0'");
-const hdPrivateKeyRand = bsv.HDPrivateKey.fromRandom();
-const hdPrivateKeyRecover = bsv.HDPrivateKey.fromString("");
-const keyChild = hdPrivateKey.deriveChild("m/5/2/8").toString();
-const hdPrivateFromChild = hdPrivateKey.deriveChild("m/5'/2/8").toString();
-const privateKeyFromRandHD = hdPrivateKeyRand.privateKey.toString();
-const privateKeyFromXprv = privateKeyStandard.privateKey;
-const pubKeyFromXprv = bsv.HDPublicKey.fromHDPrivateKey(privateKeyStandard);
-const mnemonic = window.bsvMnemonic;
+let privKey = bsv.PrivateKey.fromRandom();
+let pubKey = bsv.PublicKey.fromPrivateKey(privKey);
+let addressFromPub = bsv.Address.fromPublicKey(pubKey).toString();
+let addressFromPriv = bsv.Address.fromPrivateKey(privKey).toString();
+let addressCode = "bitcoinsv:" + addressFromPriv;
+let hdPrivateKey = bsv.HDPrivateKey.fromString("");
+let privateKeyStandard = hdPrivateKey.deriveChild("m/44'/0'/0'");
+let hdPrivateKeyRand = bsv.HDPrivateKey.fromRandom();
+let hdPrivateKeyRecover = bsv.HDPrivateKey.fromString("");
+let keyChild = hdPrivateKey.deriveChild("m/5/2/8").toString();
+let hdPrivateFromChild = hdPrivateKey.deriveChild("m/5'/2/8").toString();
+let privateKeyFromRandHD = hdPrivateKeyRand.privateKey.toString();
+let privateKeyFromXprv = privateKeyStandard.privateKey;
+let pubKeyFromXprv = bsv.HDPublicKey.fromHDPrivateKey(privateKeyStandard);
+let mnemonic = window.bsvMnemonic;
 let seedWords = mnemonic.fromRandom();
-const hdPrivateKeyFromSeed = bsv.HDPrivateKey.fromSeed(seedWords.toSeed());
+let hdPrivateKeyFromSeed = bsv.HDPrivateKey.fromSeed(seedWords.toSeed());
 
 //UI elements
-const generateDiv = document.getElementById("mnemonicDiv");
-const hdPrivateKeyDiv = document.getElementById("hdPrivateKey");
-const privateKeyDiv = document.getElementById("privateKey");
-const publicKeyDiv = document.getElementById("publicKey");
-const addressDiv = document.getElementById("addressDiv");
-const walletOutput = document.getElementById("walletOutputText");
-const sliderText = document.getElementById("sliderText");
-const slider = document.getElementById("myRange");
-const mnemonicText = document.getElementById("mnemonicText");
-const hdPrivateKeyText = document.getElementById("hdPrivateKeyText");
-const privateKeyText = document.getElementById("privateKeyText");
-const publicKeyText = document.getElementById("publicKeyText");
-const addressText = document.getElementById("addressText");
+let newMnemonic = document.getElementById("newMnemonic");
+let sliderText = document.getElementById("sliderText");
+let slider = document.getElementById("range");
+let mnemonicText = document.getElementById("mnemonicText");
+let hdPrivateKeyText = document.getElementById("hdPrivateKeyText");
+let privateKeyText = document.getElementById("privateKeyText");
+let publicKeyText = document.getElementById("publicKeyText");
+let addressText = document.getElementById("addressText");
 
-// add refresh functionality currently just displays the seed after click
-// add modal for seed
-// work out general UI changes and functionality required
-// use a transaction flow chart for improved design?
-
-generateDiv.addEventListener("click", function () {
-  mnemonicText.innerHTML = seedWords.phrase.toString();
-  console.log("clicked generate mnemonic");
-  //let el = hdPrivateKeyFromSeed.toString();
-  //el = el.slice(0, 8) + "....";
-  //hdPrivateKeyText.innerHTML = el;
-});
-
-hdPrivateKeyDiv.addEventListener("click", function () {
-  hdPrivateKeyText.innerHTML = hdPrivateKeyFromSeed.toString();
-  let el = hdPrivateKeyFromSeed.toString();
-  //el = el.slice(0, 8) + "....";
-
-  hdPrivateKeyText.innerHTML = el;
-  console.log("clicked HDprivate key");
-});
-
-privateKeyDiv.addEventListener("click", function () {
-  privateKeyText.innerHTML = privateKeyFromXprv.toString();
-  let el = privateKeyFromXprv.toString();
-  //el = el.slice(0, 8) + "....";
-  privateKeyText.innerHTML = el;
-  console.log("clicked privateKey");
-});
-
-publicKeyDiv.addEventListener("click", function () {
-  publicKeyText.innerHTML = pubKey.toString();
-  let el = pubKey.toString();
-  //el = el.slice(0, 8) + "....";
-  publicKeyText.innerHTML = el;
-  console.log("clicked publicKey");
-});
-
-addressDiv.addEventListener("click", function () {
-  addressText.innerHTML = addressFromPub.toString();
-  let el = addressFromPub.toString();
-  //el = el.slice(0, 8) + "....";
-  addressText.innerHTML = el;
-  console.log("clicked address");
-});
-
-//need workflow for transaction types
-
+let num = 0;
 slider.oninput = function () {
   slider.innerHTML = this.value;
-  if (this.value <= 33) {
-    sliderText.innerHTML = "Choose derivation path... (M/44'/0'/X')";
-    walletOutput.innerHTML = privateKeyStandard.toString();
-  } else if (this.value <= 66 && this.value >= 33) {
-    sliderText.innerHTML = "Choose derivation path... (m/5/2/8)";
-    walletOutput.innerHTML = keyChild.toString();
-  } else {
-    sliderText.innerHTML = "Choose derivation path... (m/5'/2/8)";
-    walletOutput.innerHTML = hdPrivateFromChild.toString();
-  }
+  num = this.value;
+  console.log(num);
+  sliderAddress();
 };
+
+const sliderAddress = () => {
+  let privateKey = hdPrivateKey.deriveChild(`m/44'/0'/${num}'`).privateKey;
+  privateKeyText.value = privateKey.toString();
+  sliderText.innerHTML = `Choose derivation path... (M/44'/0'/${num}')`;
+
+  let publicKey = bsv.PublicKey.fromPrivateKey(privateKey);
+  publicKeyText.innerHTML = publicKey.toString();
+
+  let address = bsv.Address.fromPublicKey(publicKey).toString();
+  addressText.innerHTML = address.toString();
+};
+let c;
+
+//add modal for seed
+newMnemonic.addEventListener("click", function () {
+  let mnemonic = window.bsvMnemonic;
+  words = mnemonic.fromRandom();
+  mnemonicText.value = words.phrase.toString();
+
+  let hdPrivateKey = bsv.HDPrivateKey.fromSeed(words.toSeed());
+  hdPrivateKeyText.value = hdPrivateKey.toString();
+
+  let privateKey = hdPrivateKey.deriveChild(`m/44'/0'/${num}'`).privateKey;
+  privateKeyText.value = privateKey.toString();
+
+  let publicKey = bsv.PublicKey.fromPrivateKey(privateKey);
+  publicKeyText.innerHTML = publicKey.toString();
+
+  let address = bsv.Address.fromPublicKey(publicKey).toString();
+  addressText.innerHTML = address.toString();
+
+  num = 0;
+  slider.value = 0;
+  sliderText.innerHTML = `Choose derivation path... (M/44'/0'/${num}')`;
+});
+
+//create function for text box adjustment on input fields
+//create function for all copy icons DRY format
+function copyHD() {
+  var copyText = hdPrivateKeyText;
+  copyText.select();
+  copyText.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  alert("Copied the text: " + copyText.value);
+}
+function copyPrivK() {
+  var copyText = privateKeyText;
+  copyText.select();
+  copyText.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  alert("Copied the text: " + copyText.value);
+}
