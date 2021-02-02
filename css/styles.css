@@ -44,10 +44,11 @@
   background: #4caf50; /* Green background */
   cursor: pointer; /* Cursor on hover */
 }
-#privateKeyText,
-#hdPrivateKeyText,
-#mnemonicText {
-  width: 450px;
+.inputs {
+  width: 90%;
   text-align: center;
-  padding: 3px;
+  padding: 5px;
+}
+form {
+  padding: 10px;
 }

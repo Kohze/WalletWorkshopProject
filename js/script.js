@@ -1,22 +1,3 @@
-//bsv.js functions
-let privKey = bsv.PrivateKey.fromRandom();
-let pubKey = bsv.PublicKey.fromPrivateKey(privKey);
-let addressFromPub = bsv.Address.fromPublicKey(pubKey).toString();
-let addressFromPriv = bsv.Address.fromPrivateKey(privKey).toString();
-let addressCode = "bitcoinsv:" + addressFromPriv;
-let hdPrivateKey = bsv.HDPrivateKey.fromString("");
-let privateKeyStandard = hdPrivateKey.deriveChild("m/44'/0'/0'");
-let hdPrivateKeyRand = bsv.HDPrivateKey.fromRandom();
-let hdPrivateKeyRecover = bsv.HDPrivateKey.fromString("");
-let keyChild = hdPrivateKey.deriveChild("m/5/2/8").toString();
-let hdPrivateFromChild = hdPrivateKey.deriveChild("m/5'/2/8").toString();
-let privateKeyFromRandHD = hdPrivateKeyRand.privateKey.toString();
-let privateKeyFromXprv = privateKeyStandard.privateKey;
-let pubKeyFromXprv = bsv.HDPublicKey.fromHDPrivateKey(privateKeyStandard);
-let mnemonic = window.bsvMnemonic;
-let seedWords = mnemonic.fromRandom();
-let hdPrivateKeyFromSeed = bsv.HDPrivateKey.fromSeed(seedWords.toSeed());
-
 //UI elements
 let newMnemonic = document.getElementById("newMnemonic");
 let sliderText = document.getElementById("sliderText");
@@ -26,52 +7,99 @@ let hdPrivateKeyText = document.getElementById("hdPrivateKeyText");
 let privateKeyText = document.getElementById("privateKeyText");
 let publicKeyText = document.getElementById("publicKeyText");
 let addressText = document.getElementById("addressText");
+let qrcode = document.getElementById("qrcode");
+let pkform = document.getElementById("pkForm");
 
 let num = 0;
+let address, addressQr, privateKey, publicKey, hdPrivateKey, words;
+
 slider.oninput = function () {
   slider.innerHTML = this.value;
   num = this.value;
   console.log(num);
-  sliderAddress();
+  refreshAddresses();
 };
 
-const sliderAddress = () => {
-  let privateKey = hdPrivateKey.deriveChild(`m/44'/0'/${num}'`).privateKey;
+const qrGenerate = function () {
+  console.log(address);
+  addressQr = "bitcoinsv:" + address;
+  new QRCode(document.getElementById("qrcode"), addressQr);
+  //QRCode generates a new QR element on top of the last one - remove previous QR before generating new one
+};
+
+const publicKeyFunc = function () {
+  publicKey = bsv.PublicKey.fromPrivateKey(privateKey);
+  publicKeyText.value = publicKey.toString();
+};
+
+const privateKeyFunc = function () {
+  privateKey = hdPrivateKey.deriveChild(`m/44'/0'/${num}'`).privateKey;
   privateKeyText.value = privateKey.toString();
+};
+
+const addressFunc = function () {
+  address = bsv.Address.fromPublicKey(publicKey).toString();
+  addressText.value = address.toString();
+};
+
+const refreshAddresses = () => {
+  privateKeyFunc();
   sliderText.innerHTML = `Choose derivation path... (M/44'/0'/${num}')`;
 
-  let publicKey = bsv.PublicKey.fromPrivateKey(privateKey);
-  publicKeyText.innerHTML = publicKey.toString();
+  publicKeyFunc();
 
-  let address = bsv.Address.fromPublicKey(publicKey).toString();
-  addressText.innerHTML = address.toString();
+  addressFunc();
 };
-let c;
 
-//add modal for seed
 newMnemonic.addEventListener("click", function () {
-  let mnemonic = window.bsvMnemonic;
+  mnemonic = window.bsvMnemonic;
   words = mnemonic.fromRandom();
   mnemonicText.value = words.phrase.toString();
 
-  let hdPrivateKey = bsv.HDPrivateKey.fromSeed(words.toSeed());
+  hdPrivateKey = bsv.HDPrivateKey.fromSeed(words.toSeed());
   hdPrivateKeyText.value = hdPrivateKey.toString();
 
-  let privateKey = hdPrivateKey.deriveChild(`m/44'/0'/${num}'`).privateKey;
-  privateKeyText.value = privateKey.toString();
+  privateKeyFunc();
 
-  let publicKey = bsv.PublicKey.fromPrivateKey(privateKey);
-  publicKeyText.innerHTML = publicKey.toString();
+  publicKeyFunc();
 
-  let address = bsv.Address.fromPublicKey(publicKey).toString();
-  addressText.innerHTML = address.toString();
+  addressFunc();
 
   num = 0;
   slider.value = 0;
   sliderText.innerHTML = `Choose derivation path... (M/44'/0'/${num}')`;
+  address = addressText.value;
+  qrGenerate();
+  refreshBalance();
 });
 
-//create function for text box adjustment on input fields
+const refreshBalance = function () {
+  let config = {
+    method: "get",
+    url:
+      "https://api.whatsonchain.com/v1/bsv/main/address/" +
+      address +
+      "/balance",
+  };
+
+  axios(config).then((response) => {
+    let data = JSON.stringify(response.data);
+    console.log(data);
+    let p = document.getElementById("balance");
+    p.innerHTML = data;
+  });
+};
+
+/*- select not a function when using argument in function -
+function copy(elem) {
+  var copyText = elem;
+  copyText.select();
+  copyText.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  alert("Copied the text: " + copyText.value);
+}
+*/
+
 //create function for all copy icons DRY format
 function copyHD() {
   var copyText = hdPrivateKeyText;
@@ -87,3 +115,27 @@ function copyPrivK() {
   document.execCommand("copy");
   alert("Copied the text: " + copyText.value);
 }
+
+function copyPubK() {
+  var copyText = publicKeyText;
+  copyText.select();
+  copyText.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  alert("Copied the text: " + copyText.value);
+}
+
+function copyAddress() {
+  var copyText = addressText;
+  copyText.select();
+  copyText.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  alert("Copied the text: " + copyText.value);
+}
+
+// input function not working needs a fix
+const pkForm = function () {
+  privateKeyText.value = privateKey;
+  console.log(privateKey);
+  publicKeyFunc();
+  addressFunc();
+};

@@ -57,6 +57,7 @@
           ></span>
           <form action="">
             <input
+              class="inputs"
               type="text"
               id="mnemonicText"
               style="word-wrap: break-word"
@@ -77,6 +78,7 @@
           ></span>
           <form action="">
             <input
+              class="inputs"
               type="text"
               id="hdPrivateKeyText"
               style="word-wrap: break-word"
@@ -105,8 +107,9 @@
             uk-icon="copy"
             onclick="copyPrivK()"
           ></span>
-          <form action="">
+          <form id="pkForm" action="" onsubmit="pkForm()">
             <input
+              class="inputs"
               type="text"
               id="privateKeyText"
               style="word-wrap: break-word"
@@ -125,7 +128,15 @@
             uk-icon="copy"
             onclick="copyPubK()"
           ></span>
-          <p id="publicKeyText" style="word-wrap: break-word">-----</p>
+          <form action="">
+            <input
+              class="inputs"
+              type="text"
+              id="publicKeyText"
+              style="word-wrap: break-word"
+              value=""
+            />
+          </form>
         </div>
         <div
           id="addressDiv"
@@ -135,12 +146,42 @@
           <span
             class="uk-margin-small-right iconRight"
             uk-icon="copy"
-            onclick="copyAdd()"
+            onclick="copyAddress()"
           ></span>
-          <p id="addressText" style="word-wrap: break-word">-----</p>
+          <form action="">
+            <input
+              class="inputs"
+              type="text"
+              id="addressText"
+              style="word-wrap: break-word"
+              value=""
+            />
+          </form>
+        </div>
+        <div
+          class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small cardColour"
+          style="margin-bottom: 5%"
+        >
+          Balance
+          <span
+            class="uk-margin-small-right iconRight"
+            uk-icon="refresh"
+            onclick="refreshBalance()"
+          ></span>
+          <div
+            id="balance"
+            style="
+              width: 80%;
+              height: 40%;
+              background-color: white;
+              margin-left: 10%;
+              padding: 2px;
+              margin-top: 10px;
+            "
+          ></div>
         </div>
       </div>
-      <div style="margin-left: 10vw">
+      <div style="margin-left: 10vw; margin-right: 10vw">
         <img
           data-src="img/bitcoinArt.svg"
           width="500"
@@ -148,6 +189,28 @@
           alt=""
           uk-img
         />
+        <!--add background image to div
+        fix qr new div on refresh-->
+        <div
+          id="qrDiv"
+          style="
+            margin-bottom: 10%;
+            padding: 10%;
+            position: inherit;
+            margin-right: 10%;
+            margin-top: 10%;
+            height: 30vh;
+            background-image: url('/img/qrImage.jpg');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+            border-radius: 20px;
+            background-color: green;
+            align-content: center;
+          "
+        >
+          <div id="qrcode" style="width: 50%"></div>
+        </div>
       </div>
     </div>
 
