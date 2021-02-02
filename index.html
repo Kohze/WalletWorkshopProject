@@ -30,6 +30,7 @@
       type="text/javascript"
       src="https://unpkg.com/axios/dist/axios.min.js"
     ></script>
+    <script src="js/clipboard.min.js"></script>
   </head>
   <body>
     <nav class="uk-navbar-container navColour" uk-navbar>
@@ -55,7 +56,13 @@
             style="float: right"
             id="newMnemonic"
           ></span>
-          <form action="">
+
+          <form id="enterMnemonic" action="">
+            <input
+              type="submit"
+              value="Enter Seed"
+              style="margin-bottom: 8px"
+            />
             <input
               class="inputs"
               type="text"
@@ -76,7 +83,12 @@
             id="copyHdprivate"
             onclick="copyHD()"
           ></span>
-          <form action="">
+          <form id="enterHdPrivKey" action="">
+            <input
+              type="submit"
+              value="Enter HD Private Key"
+              style="margin-bottom: 8px"
+            />
             <input
               class="inputs"
               type="text"
@@ -107,7 +119,12 @@
             uk-icon="copy"
             onclick="copyPrivK()"
           ></span>
-          <form id="pkForm" action="" onsubmit="pkForm()">
+          <form id="enterPrivKey" action="">
+            <input
+              type="submit"
+              value="Enter Private Key"
+              style="margin-bottom: 8px"
+            />
             <input
               class="inputs"
               type="text"
@@ -171,12 +188,13 @@
           <div
             id="balance"
             style="
-              width: 80%;
+              width: 90%;
               height: 40%;
               background-color: white;
-              margin-left: 10%;
+              margin-left: 5%;
               padding: 2px;
               margin-top: 10px;
+              text-align: center;
             "
           ></div>
         </div>
@@ -201,19 +219,22 @@
             margin-top: 10%;
             height: 30vh;
             background-image: url('/img/qrImage.jpg');
-            background-size: cover;
+            background-size: contain;
+            background-repeat: no-repeat;
             background-position: center;
+            object-fit: cover;
             overflow: hidden;
-            border-radius: 20px;
-            background-color: green;
             align-content: center;
           "
         >
-          <div id="qrcode" style="width: 50%"></div>
+          <div
+            class="qrDivClass"
+            id="qrcode"
+            style="width: 26%; margin-left: 65%; margin-top: 23%"
+          ></div>
         </div>
       </div>
     </div>
-
     <script src="js/script.js"></script>
   </body>
 </html>
