@@ -48,21 +48,23 @@
           Generate mnemonic
 
           <form id="enterMnemonic" action="">
-            <input
-              onsubmit="return false"
-              oninput="submitMnemonic()"
-              class="inputs"
-              type="text"
-              id="mnemonicText"
-              style="word-wrap: break-word"
-              value=""
-            />
-            <span
-              class="uk-margin-small-right iconRight"
-              uk-icon="refresh"
-              style="cursor: pointer"
-              id="newMnemonic"
-            ></span>
+            <div class="input-container">
+              <input
+                onsubmit="return false"
+                oninput="submitMnemonic()"
+                class="inputs"
+                type="text"
+                id="mnemonicText"
+                style="word-wrap: break-word"
+                value=""
+              />
+              <span
+                class="uk-margin-small-right iconRight"
+                uk-icon="refresh"
+                style="cursor: pointer"
+                id="newMnemonic"
+              ></span>
+            </div>
           </form>
         </div>
         <div
@@ -72,20 +74,22 @@
           HD Private Key
 
           <form id="enterHdPrivKey" action="">
-            <input
-              class="inputs"
-              type="text"
-              id="hdPrivateKeyText"
-              style="word-wrap: break-word"
-              value=""
-            />
-            <span
-              class="uk-margin-small-right iconRight"
-              uk-icon="copy"
-              id="copyHdprivate"
-              onclick="copyHD()"
-              style="float: right; cursor: pointer"
-            ></span>
+            <div class="input-container">
+              <input
+                class="inputs"
+                type="text"
+                id="hdPrivateKeyText"
+                style="word-wrap: break-word"
+                value=""
+              />
+              <span
+                class="uk-margin-small-right iconRight"
+                uk-icon="copy"
+                id="copyHdprivate"
+                onclick="copyHD()"
+                style="cursor: pointer"
+              ></span>
+            </div>
           </form>
         </div>
         <p id="sliderText">Choose derivation path... (M/44'/0'/0')</p>
@@ -106,19 +110,21 @@
           Private Key
 
           <form id="enterPrivKey" action="">
-            <input
-              class="inputs"
-              type="text"
-              id="privateKeyText"
-              style="word-wrap: break-word"
-              value=""
-            />
-            <span
-              class="uk-margin-small-right iconRight"
-              uk-icon="copy"
-              onclick="copyPrivK()"
-              style="float: right; cursor: pointer"
-            ></span>
+            <div class="input-container">
+              <input
+                class="inputs"
+                type="text"
+                id="privateKeyText"
+                style="word-wrap: break-word"
+                value=""
+              />
+              <span
+                class="uk-margin-small-right iconRight"
+                uk-icon="copy"
+                onclick="copyPrivK()"
+                style="cursor: pointer"
+              ></span>
+            </div>
           </form>
           <!--<p id="privateKeyText" style="word-wrap: break-word">-----</p>-->
         </div>
@@ -129,19 +135,21 @@
           Public Key
 
           <form action="">
-            <input
-              class="inputs"
-              type="text"
-              id="publicKeyText"
-              style="word-wrap: break-word"
-              value=""
-            />
-            <span
-              class="uk-margin-small-right iconRight"
-              uk-icon="copy"
-              onclick="copyPubK()"
-              style="float: right; cursor: pointer"
-            ></span>
+            <div class="input-container">
+              <input
+                class="inputs"
+                type="text"
+                id="publicKeyText"
+                style="word-wrap: break-word"
+                value=""
+              />
+              <span
+                class="uk-margin-small-right iconRight"
+                uk-icon="copy"
+                onclick="copyPubK()"
+                style="cursor: pointer"
+              ></span>
+            </div>
           </form>
         </div>
         <div
@@ -151,19 +159,21 @@
           Address
 
           <form action="">
-            <input
-              class="inputs"
-              type="text"
-              id="addressText"
-              style="word-wrap: break-word"
-              value=""
-              style="float: right; cursor: pointer"
-            />
-            <span
-              class="uk-margin-small-right iconRight"
-              uk-icon="copy"
-              onclick="copyAddress()"
-            ></span>
+            <div class="input-container">
+              <input
+                class="inputs"
+                type="text"
+                id="addressText"
+                style="word-wrap: break-word"
+                value=""
+                style="cursor: pointer"
+              />
+              <span
+                class="uk-margin-small-right iconRight"
+                uk-icon="copy"
+                onclick="copyAddress()"
+              ></span>
+            </div>
           </form>
         </div>
         <div
@@ -172,20 +182,22 @@
         >
           Balance
           <form action="">
-            <input
-              class="inputs"
-              type="text"
-              id="balance"
-              style="word-wrap: break-word"
-              value=""
-              disabled
-            />
-            <span
-              class="uk-margin-small-right iconRight"
-              uk-icon="refresh"
-              onclick="refreshBalance()"
-              style="float: right; cursor: pointer"
-            ></span>
+            <div class="input-container">
+              <input
+                class="inputs"
+                type="text"
+                id="balance"
+                style="word-wrap: break-word"
+                value=""
+                disabled
+              />
+              <span
+                class="uk-margin-small-right iconRight"
+                uk-icon="refresh"
+                onclick="refreshBalance()"
+                style="cursor: pointer"
+              ></span>
+            </div>
           </form>
         </div>
       </div>
