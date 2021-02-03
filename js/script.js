@@ -11,6 +11,7 @@ let qrcode = document.getElementById("qrcode");
 let enterMnemonic = document.getElementById("enterMnemonic");
 
 let num = 0;
+let qrcodeNew = new QRCode("qrcode");
 let address,
   addressQr,
   privateKey,
@@ -23,11 +24,8 @@ let address,
 slider.oninput = function () {
   slider.innerHTML = this.value;
   num = this.value;
-  console.log(num);
   derivationPath();
 };
-
-let qrcodeNew = new QRCode("qrcode");
 
 function generateQr() {
   addressQr = "bitcoinsv:" + address;
@@ -38,12 +36,6 @@ const randomMnemonic = function () {
   mnemonic = window.bsvMnemonic;
   words = mnemonic.fromRandom();
   mnemonicText.value = words.phrase.toString();
-};
-
-const enterMnemonicFunc = function () {
-  hdPrivateKey = bsv.HDPrivateKey.fromString(words.toSeed());
-  hdPrivateKeyText.value = hdPrivateKey.toString();
-  console.log(words);
 };
 
 const hdPrivKeyFunc = function () {
@@ -95,6 +87,27 @@ const refreshBalance = function () {
   });
 };
 
+const submitMnemonic = function () {
+  try {
+    words = bsvMnemonic.fromString(mnemonicText.value);
+  } catch (err) {
+    console.log("error");
+    return;
+  }
+
+  hdPrivKeyFunc();
+
+  privateKeyFunc();
+
+  publicKeyFunc();
+
+  addressFunc();
+
+  generateQr();
+
+  refreshBalance();
+};
+
 generateMnemonic.addEventListener("click", function () {
   randomMnemonic();
 
@@ -118,19 +131,4 @@ generateMnemonic.addEventListener("click", function () {
 
 enterMnemonic.addEventListener("submit", function (e) {
   e.preventDefault();
-  console.log(mnemonicText.value);
-  words = bsvMnemonic.fromString(mnemonicText.value);
-  console.log(words);
-
-  hdPrivKeyFunc();
-
-  privateKeyFunc();
-
-  publicKeyFunc();
-
-  addressFunc();
-
-  generateQr();
-
-  refreshBalance();
 });

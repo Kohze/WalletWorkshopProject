@@ -16,11 +16,6 @@
       type="text/javascript"
       src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"
     ></script>
-
-    <script
-      type="text/javascript"
-      src="CryptoJS.AES.encrypt(privateKey.toString(), password)"
-    ></script>
     <script
       type="text/javascript"
       src="https://unpkg.com/bsv@1.5.0/bsv-mnemonic.min.js"
@@ -31,6 +26,7 @@
       src="https://unpkg.com/axios/dist/axios.min.js"
     ></script>
     <script src="js/clipboard.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   </head>
   <body>
     <nav class="uk-navbar-container navColour" uk-navbar>
@@ -54,6 +50,7 @@
           <form id="enterMnemonic" action="">
             <input
               onsubmit="return false"
+              oninput="submitMnemonic()"
               class="inputs"
               type="text"
               id="mnemonicText"
@@ -63,7 +60,7 @@
             <span
               class="uk-margin-small-right iconRight"
               uk-icon="refresh"
-              style="float: right"
+              style="cursor: pointer"
               id="newMnemonic"
             ></span>
           </form>
@@ -87,6 +84,7 @@
               uk-icon="copy"
               id="copyHdprivate"
               onclick="copyHD()"
+              style="float: right; cursor: pointer"
             ></span>
           </form>
         </div>
@@ -119,6 +117,7 @@
               class="uk-margin-small-right iconRight"
               uk-icon="copy"
               onclick="copyPrivK()"
+              style="float: right; cursor: pointer"
             ></span>
           </form>
           <!--<p id="privateKeyText" style="word-wrap: break-word">-----</p>-->
@@ -141,6 +140,7 @@
               class="uk-margin-small-right iconRight"
               uk-icon="copy"
               onclick="copyPubK()"
+              style="float: right; cursor: pointer"
             ></span>
           </form>
         </div>
@@ -157,6 +157,7 @@
               id="addressText"
               style="word-wrap: break-word"
               value=""
+              style="float: right; cursor: pointer"
             />
             <span
               class="uk-margin-small-right iconRight"
@@ -177,11 +178,13 @@
               id="balance"
               style="word-wrap: break-word"
               value=""
+              disabled
             />
             <span
               class="uk-margin-small-right iconRight"
               uk-icon="refresh"
               onclick="refreshBalance()"
+              style="float: right; cursor: pointer"
             ></span>
           </form>
         </div>
@@ -198,7 +201,8 @@
         <div
           id="qrDiv"
           style="
-            margin: 10% 0;
+            margin-top: 10%;
+            margin-right: 0;
             max-width: 360px;
             height: 300px;
             background-image: url('/img/qrImage.jpg');
@@ -207,7 +211,6 @@
             background-position: bottom;
             object-fit: cover;
             overflow: hidden;
-            background-color: green;
           "
         >
           <div
@@ -224,14 +227,14 @@
         copyText.select();
         copyText.setSelectionRange(0, 99999);
         document.execCommand("copy");
-        alert("Copied : " + copyText.value);
+        Swal.fire("", "HD Private Key Copied!", "success");
       }
       function copyPrivK() {
         var copyText = privateKeyText;
         copyText.select();
         copyText.setSelectionRange(0, 99999);
         document.execCommand("copy");
-        alert("Copied : " + copyText.value);
+        Swal.fire("", "Private Key Copied!", "success");
       }
 
       function copyPubK() {
@@ -239,7 +242,7 @@
         copyText.select();
         copyText.setSelectionRange(0, 99999);
         document.execCommand("copy");
-        alert("Copied : " + copyText.value);
+        Swal.fire("", "Public Key Copied!", "success");
       }
 
       function copyAddress() {
@@ -247,7 +250,7 @@
         copyText.select();
         copyText.setSelectionRange(0, 99999);
         document.execCommand("copy");
-        alert("Copied : " + copyText.value);
+        Swal.fire("", "Address Copied!", "success");
       }
     </script>
     <script src="js/script.js"></script>
