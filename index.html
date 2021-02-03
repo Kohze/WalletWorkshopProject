@@ -45,31 +45,27 @@
       uk-grid
       style="margin-top: 50px; overflow: hidden"
     >
-      <div class="uk-grid-item-match" style="text-align: center">
+      <div class="uk-grid-item-match" style="text-align: center; height: 50%">
         <div
           class="uk-card uk-card-default uk-card-body uk-card-small cardColour"
         >
           Generate mnemonic
-          <span
-            class="uk-margin-small-right iconRight"
-            uk-icon="refresh"
-            style="float: right"
-            id="newMnemonic"
-          ></span>
 
           <form id="enterMnemonic" action="">
             <input
-              type="submit"
-              value="Enter Seed"
-              style="margin-bottom: 8px"
-            />
-            <input
+              onsubmit="return false"
               class="inputs"
               type="text"
               id="mnemonicText"
               style="word-wrap: break-word"
               value=""
             />
+            <span
+              class="uk-margin-small-right iconRight"
+              uk-icon="refresh"
+              style="float: right"
+              id="newMnemonic"
+            ></span>
           </form>
         </div>
         <div
@@ -77,18 +73,8 @@
           class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small cardColour"
         >
           HD Private Key
-          <span
-            class="uk-margin-small-right iconRight"
-            uk-icon="copy"
-            id="copyHdprivate"
-            onclick="copyHD()"
-          ></span>
+
           <form id="enterHdPrivKey" action="">
-            <input
-              type="submit"
-              value="Enter HD Private Key"
-              style="margin-bottom: 8px"
-            />
             <input
               class="inputs"
               type="text"
@@ -96,6 +82,12 @@
               style="word-wrap: break-word"
               value=""
             />
+            <span
+              class="uk-margin-small-right iconRight"
+              uk-icon="copy"
+              id="copyHdprivate"
+              onclick="copyHD()"
+            ></span>
           </form>
         </div>
         <p id="sliderText">Choose derivation path... (M/44'/0'/0')</p>
@@ -114,17 +106,8 @@
           class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small cardColour"
         >
           Private Key
-          <span
-            class="uk-margin-small-right iconRight"
-            uk-icon="copy"
-            onclick="copyPrivK()"
-          ></span>
+
           <form id="enterPrivKey" action="">
-            <input
-              type="submit"
-              value="Enter Private Key"
-              style="margin-bottom: 8px"
-            />
             <input
               class="inputs"
               type="text"
@@ -132,6 +115,11 @@
               style="word-wrap: break-word"
               value=""
             />
+            <span
+              class="uk-margin-small-right iconRight"
+              uk-icon="copy"
+              onclick="copyPrivK()"
+            ></span>
           </form>
           <!--<p id="privateKeyText" style="word-wrap: break-word">-----</p>-->
         </div>
@@ -140,11 +128,7 @@
           class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small cardColour"
         >
           Public Key
-          <span
-            class="uk-margin-small-right iconRight"
-            uk-icon="copy"
-            onclick="copyPubK()"
-          ></span>
+
           <form action="">
             <input
               class="inputs"
@@ -153,6 +137,11 @@
               style="word-wrap: break-word"
               value=""
             />
+            <span
+              class="uk-margin-small-right iconRight"
+              uk-icon="copy"
+              onclick="copyPubK()"
+            ></span>
           </form>
         </div>
         <div
@@ -160,11 +149,7 @@
           class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small cardColour"
         >
           Address
-          <span
-            class="uk-margin-small-right iconRight"
-            uk-icon="copy"
-            onclick="copyAddress()"
-          ></span>
+
           <form action="">
             <input
               class="inputs"
@@ -173,6 +158,11 @@
               style="word-wrap: break-word"
               value=""
             />
+            <span
+              class="uk-margin-small-right iconRight"
+              uk-icon="copy"
+              onclick="copyAddress()"
+            ></span>
           </form>
         </div>
         <div
@@ -180,61 +170,86 @@
           style="margin-bottom: 5%"
         >
           Balance
-          <span
-            class="uk-margin-small-right iconRight"
-            uk-icon="refresh"
-            onclick="refreshBalance()"
-          ></span>
-          <div
-            id="balance"
-            style="
-              width: 90%;
-              height: 40%;
-              background-color: white;
-              margin-left: 5%;
-              padding: 2px;
-              margin-top: 10px;
-              text-align: center;
-            "
-          ></div>
+          <form action="">
+            <input
+              class="inputs"
+              type="text"
+              id="balance"
+              style="word-wrap: break-word"
+              value=""
+            />
+            <span
+              class="uk-margin-small-right iconRight"
+              uk-icon="refresh"
+              onclick="refreshBalance()"
+            ></span>
+          </form>
         </div>
       </div>
-      <div style="margin-left: 10vw; margin-right: 10vw">
+      <div style="margin-left: 10vw; width: 30%">
         <img
           data-src="img/bitcoinArt.svg"
-          width="500"
+          width="360"
           height=""
           alt=""
           uk-img
         />
-        <!--add background image to div
-        fix qr new div on refresh-->
+
         <div
           id="qrDiv"
           style="
-            margin-bottom: 10%;
-            padding: 10%;
-            position: inherit;
-            margin-right: 10%;
-            margin-top: 10%;
-            height: 30vh;
+            margin: 10% 0;
+            max-width: 360px;
+            height: 300px;
             background-image: url('/img/qrImage.jpg');
             background-size: contain;
             background-repeat: no-repeat;
-            background-position: center;
+            background-position: bottom;
             object-fit: cover;
             overflow: hidden;
-            align-content: center;
+            background-color: green;
           "
         >
           <div
             class="qrDivClass"
             id="qrcode"
-            style="width: 26%; margin-left: 65%; margin-top: 23%"
+            style="position: relative; width: 16%; top: 44%; left: 64%"
           ></div>
         </div>
       </div>
     </div>
+    <script>
+      function copyHD() {
+        var copyText = hdPrivateKeyText;
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+        alert("Copied : " + copyText.value);
+      }
+      function copyPrivK() {
+        var copyText = privateKeyText;
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+        alert("Copied : " + copyText.value);
+      }
+
+      function copyPubK() {
+        var copyText = publicKeyText;
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+        alert("Copied : " + copyText.value);
+      }
+
+      function copyAddress() {
+        var copyText = addressText;
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+        alert("Copied : " + copyText.value);
+      }
+    </script>
     <script src="js/script.js"></script>
   </body>
 </html>

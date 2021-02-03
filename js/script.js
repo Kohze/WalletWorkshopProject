@@ -8,9 +8,7 @@ let privateKeyText = document.getElementById("privateKeyText");
 let publicKeyText = document.getElementById("publicKeyText");
 let addressText = document.getElementById("addressText");
 let qrcode = document.getElementById("qrcode");
-let qrDiv = document.getElementById("qrDiv");
 let enterMnemonic = document.getElementById("enterMnemonic");
-let qrDivClass = document.querySelector(".qrDivClass");
 
 let num = 0;
 let address,
@@ -26,14 +24,15 @@ slider.oninput = function () {
   slider.innerHTML = this.value;
   num = this.value;
   console.log(num);
-  refreshAddresses();
+  derivationPath();
 };
 
-const qrGenerate = function () {
+let qrcodeNew = new QRCode("qrcode");
+
+function generateQr() {
   addressQr = "bitcoinsv:" + address;
-  new QRCode(document.getElementById("qrcode"), addressQr);
-  //QRCode generates a new QR element on top of the last one - remove previous QR before generating new one
-};
+  qrcodeNew.makeCode(addressQr);
+}
 
 const randomMnemonic = function () {
   mnemonic = window.bsvMnemonic;
@@ -67,13 +66,15 @@ const addressFunc = function () {
   addressText.value = address.toString();
 };
 
-const refreshAddresses = () => {
+const derivationPath = () => {
   privateKeyFunc();
   sliderText.innerHTML = `Choose derivation path... (M/44'/0'/${num}')`;
 
   publicKeyFunc();
 
   addressFunc();
+
+  generateQr();
 };
 
 //Make the output nicer with dollar value and satoshi value
@@ -90,7 +91,7 @@ const refreshBalance = function () {
     let data = JSON.stringify(response.data);
     console.log(data);
     let p = document.getElementById("balance");
-    p.innerHTML = data;
+    p.value = data;
   });
 };
 
@@ -109,86 +110,27 @@ generateMnemonic.addEventListener("click", function () {
   slider.value = 0;
   sliderText.innerHTML = `Choose derivation path... (M/44'/0'/${num}')`;
   address = addressText.value;
-  qrGenerate();
+
+  generateQr();
+
   refreshBalance();
 });
 
 enterMnemonic.addEventListener("submit", function (e) {
   e.preventDefault();
   console.log(mnemonicText.value);
-  //need to generate HD key from seed words not object which is created from random generation
+  words = bsvMnemonic.fromString(mnemonicText.value);
+  console.log(words);
 
-  /*words = mnemonicText.value;
-
-  enterMnemonicFunc();
-
-  hdPrivFunc();
+  hdPrivKeyFunc();
 
   privateKeyFunc();
 
   publicKeyFunc();
 
   addressFunc();
-  */
+
+  generateQr();
+
+  refreshBalance();
 });
-enterHdPrivKey.addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  hdPrivateKey = hdPrivateKeyText.value;
-  hdPrivateKey = bsv.HDPrivateKey.fromString(hdPrivateKey);
-  privateKeyFunc();
-  publicKeyFunc();
-  addressFunc();
-  mnemonicText.value = "";
-});
-
-enterPrivKey.addEventListener("submit", function (e) {
-  e.preventDefault();
-  privateKey = privateKeyText.value;
-  console.log(privateKey);
-  //Need to generate public Key from private key string or create privatekey object from private key string
-  //publicKeyFunc();
-  //addressFunc();
-});
-
-////////////////////////////////////////////////////////////
-//create function for all copy icons DRY format and move to HTML Script
-function copyHD() {
-  var copyText = hdPrivateKeyText;
-  copyText.select();
-  copyText.setSelectionRange(0, 99999);
-  document.execCommand("copy");
-  alert("Copied : " + copyText.value);
-}
-function copyPrivK() {
-  var copyText = privateKeyText;
-  copyText.select();
-  copyText.setSelectionRange(0, 99999);
-  document.execCommand("copy");
-  alert("Copied : " + copyText.value);
-}
-
-function copyPubK() {
-  var copyText = publicKeyText;
-  copyText.select();
-  copyText.setSelectionRange(0, 99999);
-  document.execCommand("copy");
-  alert("Copied : " + copyText.value);
-}
-
-function copyAddress() {
-  var copyText = addressText;
-  copyText.select();
-  copyText.setSelectionRange(0, 99999);
-  document.execCommand("copy");
-  alert("Copied : " + copyText.value);
-}
-/*- select not a function when using argument in function -
-function copy(elem) {
-  var copyText = elem;
-  copyText.select();
-  copyText.setSelectionRange(0, 99999);
-  document.execCommand("copy");
-  alert("Copied the text: " + copyText.value);
-}
-*/
