@@ -44,10 +44,9 @@
   background: #4caf50; /* Green background */
   cursor: pointer; /* Cursor on hover */
 }
-.inputs {
+input {
   width: 90%;
   text-align: center;
-  padding: 5px 0;
 }
 form {
   padding: 5px 0;

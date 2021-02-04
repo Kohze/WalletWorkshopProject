@@ -25,8 +25,7 @@
       type="text/javascript"
       src="https://unpkg.com/axios/dist/axios.min.js"
     ></script>
-    <script src="js/clipboard.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="packages/sweetalert2.all.min.js"></script>
   </head>
   <body>
     <nav class="uk-navbar-container navColour" uk-navbar>
@@ -52,7 +51,6 @@
               <input
                 onsubmit="return false"
                 oninput="submitMnemonic()"
-                class="inputs"
                 type="text"
                 id="mnemonicText"
                 style="word-wrap: break-word"
@@ -76,11 +74,11 @@
           <form id="enterHdPrivKey" action="">
             <div class="input-container">
               <input
-                class="inputs"
                 type="text"
                 id="hdPrivateKeyText"
                 style="word-wrap: break-word"
                 value=""
+                readonly
               />
               <span
                 class="uk-margin-small-right iconRight"
@@ -112,11 +110,11 @@
           <form id="enterPrivKey" action="">
             <div class="input-container">
               <input
-                class="inputs"
                 type="text"
                 id="privateKeyText"
                 style="word-wrap: break-word"
                 value=""
+                readonly
               />
               <span
                 class="uk-margin-small-right iconRight"
@@ -137,11 +135,11 @@
           <form action="">
             <div class="input-container">
               <input
-                class="inputs"
                 type="text"
                 id="publicKeyText"
                 style="word-wrap: break-word"
                 value=""
+                readonly
               />
               <span
                 class="uk-margin-small-right iconRight"
@@ -161,12 +159,11 @@
           <form action="">
             <div class="input-container">
               <input
-                class="inputs"
                 type="text"
                 id="addressText"
-                style="word-wrap: break-word"
+                style="word-wrap: break-word; cursor: pointer"
                 value=""
-                style="cursor: pointer"
+                readonly
               />
               <span
                 class="uk-margin-small-right iconRight"
@@ -184,12 +181,11 @@
           <form action="">
             <div class="input-container">
               <input
-                class="inputs"
                 type="text"
                 id="balance"
                 style="word-wrap: break-word"
                 value=""
-                disabled
+                readonly
               />
               <span
                 class="uk-margin-small-right iconRight"

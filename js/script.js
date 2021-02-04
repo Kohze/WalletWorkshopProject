@@ -91,10 +91,11 @@ const submitMnemonic = function () {
   try {
     words = bsvMnemonic.fromString(mnemonicText.value);
   } catch (err) {
-    console.log("Seed not valid");
+    console.log(err);
     mnemonicText.style.outline = " solid red 1px";
     return;
   }
+
   mnemonicText.style.outline = "none";
   hdPrivKeyFunc();
 
