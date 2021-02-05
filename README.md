@@ -4,7 +4,9 @@
 ![walletImage](https://i.imgur.com/y0GFfDO.png)
 
 
-The https://satolearn.com Wallet Workshop project. A HTML/CSS/JS minimalistic template of a Bitcoin SV wallet under MIT license. We encourage users to edit the code, play with settings and variables and extend the functionality and design. 
+The https://satolearn.com Wallet Workshop project. A HTML/CSS/JS minimalistic template of a Bitcoin SV wallet under MIT license. 
+
+We encourage users to edit the code, play with settings and variables and extend the functionality and design. 
 
 
 #### The template contains: 
