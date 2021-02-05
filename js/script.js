@@ -28,7 +28,7 @@ slider.oninput = function () {
 };
 
 function generateQr() {
-  addressQr = "bitcoinsv:" + address;
+  addressQr = "bitcoin:" + address;
   qrcodeNew.makeCode(addressQr);
 }
 
@@ -67,6 +67,8 @@ const derivationPath = () => {
   addressFunc();
 
   generateQr();
+
+  refreshBalance();
 };
 
 //Make the output nicer with dollar value and satoshi value
