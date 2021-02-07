@@ -55,3 +55,11 @@ form {
   display: flex;
   width: 100%;
 }
+
+@media (max-width: 639px) {
+  #bitcoinArtImg {
+    width: 80% !important;
+    margin-left: 24% !important;
+
+  }
+}
