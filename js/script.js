@@ -59,7 +59,7 @@ const addressFunc = function () {
 
 const derivationPath = () => {
   privateKeyFunc();
-  sliderText.innerHTML = `Choose derivation path... (M/44'/0'/${num}')`;
+  sliderText.innerHTML = `Choose derivation path... (m/44'/0'/${num}')`;
 
   publicKeyFunc();
 
@@ -125,7 +125,7 @@ generateMnemonic.addEventListener("click", function () {
 
   num = 0;
   slider.value = 0;
-  sliderText.innerHTML = `Choose derivation path... (M/44'/0'/${num}')`;
+  sliderText.innerHTML = `Choose derivation path... (m/44'/0'/${num}')`;
   address = addressText.value;
 
   generateQr();
