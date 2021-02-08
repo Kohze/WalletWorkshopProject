@@ -56,6 +56,11 @@ const addressFunc = function () {
   
 };
 
+//Step 7
+const refreshBalance = function () {
+  
+};
+
 const derivationPath = () => {
   privateKeyFunc();
   sliderText.innerHTML = `Choose derivation path... (m/44'/0'/${num}')`;
@@ -67,11 +72,6 @@ const derivationPath = () => {
   generateQr();
 
   refreshBalance();
-};
-
-//Step 7
-const refreshBalance = function () {
-  
 };
 
 const submitMnemonic = function () {
