@@ -26,35 +26,34 @@ slider.oninput = function () {
   derivationPath();
 };
 
+//Step 1
 function generateQr() {
-  addressQr = "bitcoin:" + address;
-  qrcodeNew.makeCode(addressQr);
-}
+  
+};
 
+//Step 2
 const randomMnemonic = function () {
-  mnemonic = window.bsvMnemonic;
-  words = mnemonic.fromRandom();
-  mnemonicText.value = words.phrase.toString();
+  
 };
 
+//Step 3
 const hdPrivKeyFunc = function () {
-  hdPrivateKey = bsv.HDPrivateKey.fromSeed(words.toSeed());
-  hdPrivateKeyText.value = hdPrivateKey.toString();
+  
 };
 
+//Step 4
 const privateKeyFunc = function () {
-  privateKey = hdPrivateKey.deriveChild(`m/44'/0'/${num}'`).privateKey;
-  privateKeyText.value = privateKey.toString();
+  
 };
 
+//Step 5
 const publicKeyFunc = function () {
-  publicKey = bsv.PublicKey.fromPrivateKey(privateKey);
-  publicKeyText.value = publicKey.toString();
+  
 };
 
+//Step 6
 const addressFunc = function () {
-  address = bsv.Address.fromPublicKey(publicKey).toString();
-  addressText.value = address.toString();
+  
 };
 
 const derivationPath = () => {
@@ -70,22 +69,9 @@ const derivationPath = () => {
   refreshBalance();
 };
 
-
+//Step 7
 const refreshBalance = function () {
-  let config = {
-    method: "get",
-    url:
-      "https://api.whatsonchain.com/v1/bsv/main/address/" +
-      address +
-      "/balance",
-  };
-
-  axios(config).then((response) => {
-    let data = JSON.stringify(response.data);
-    console.log(data);
-    let p = document.getElementById("balance");
-    p.value = data;
-  });
+  
 };
 
 const submitMnemonic = function () {
