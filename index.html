@@ -80,7 +80,7 @@
             </div>
           </form>
         </div>
-        <p id="sliderText">Choose derivation path... (M/44'/0'/0')</p>
+        <p id="sliderText">Choose derivation path... (m/44'/0'/0')</p>
         <div class="slidecontainer">
           <input
             type="range"
@@ -243,6 +243,9 @@
         document.execCommand("copy");
         Swal.fire("", "Address Copied!", "success");
       }
+      enterMnemonic.addEventListener("submit", function (e) {
+      e.preventDefault();
+      });
     </script>
     <script src="js/script.js"></script>
   </body>

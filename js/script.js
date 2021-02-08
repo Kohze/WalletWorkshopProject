@@ -18,8 +18,7 @@ let address,
   publicKey,
   hdPrivateKey,
   words,
-  mnemonic,
-  newWords;
+  mnemonic;
 
 slider.oninput = function () {
   slider.innerHTML = this.value;
@@ -60,7 +59,7 @@ const addressFunc = function () {
 
 const derivationPath = () => {
   privateKeyFunc();
-  sliderText.innerHTML = `Choose derivation path... (M/44'/0'/${num}')`;
+  sliderText.innerHTML = `Choose derivation path... (m/44'/0'/${num}')`;
 
   publicKeyFunc();
 
@@ -71,7 +70,7 @@ const derivationPath = () => {
   refreshBalance();
 };
 
-//Make the output nicer with dollar value and satoshi value
+
 const refreshBalance = function () {
   let config = {
     method: "get",
@@ -126,7 +125,7 @@ generateMnemonic.addEventListener("click", function () {
 
   num = 0;
   slider.value = 0;
-  sliderText.innerHTML = `Choose derivation path... (M/44'/0'/${num}')`;
+  sliderText.innerHTML = `Choose derivation path... (m/44'/0'/${num}')`;
   address = addressText.value;
 
   generateQr();
@@ -134,6 +133,4 @@ generateMnemonic.addEventListener("click", function () {
   refreshBalance();
 });
 
-enterMnemonic.addEventListener("submit", function (e) {
-  e.preventDefault();
-});
+
