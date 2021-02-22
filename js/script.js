@@ -9,6 +9,9 @@ let publicKeyText = document.getElementById("publicKeyText");
 let addressText = document.getElementById("addressText");
 let qrcode = document.getElementById("qrcode");
 let enterMnemonic = document.getElementById("enterMnemonic");
+let sendTransaction = document.getElementById('sendTransaction')
+let sendTo = document.getElementById('sendToText')
+let amount = document.getElementById('amountText')
 
 let num = 0;
 let qrcodeNew = new QRCode("qrcode");
@@ -109,6 +112,7 @@ const submitMnemonic = function () {
   generateQr();
 
   refreshBalance();
+  console.log(publicKey.toString())
 };
 
 generateMnemonic.addEventListener("click", function () {
@@ -134,3 +138,29 @@ generateMnemonic.addEventListener("click", function () {
 });
 
 
+////////////// Transaction Upgrade///////////////
+
+sendTransaction.addEventListener('click', function () {
+  console.log(address)
+  console.log(sendTo.value)
+  console.log(amount.value)
+  console.log(privateKey)
+  const utxo = new bsv.Transaction.UnspentOutput({
+    "txId" : "bf14b65d1627f665f21bf656c5b3a7e99d8237cf0e038a1a46bf704524ab5bcf",
+    "outputIndex" : 2,
+    "address" : "1C3ifsTFkfP1RSBSXcV117iyrFnv2gwZCn",
+    "script" : "76a914792d00036023fdbd165b6947e4f7934ac9f1d55088ac",
+    "satoshis" : 327450
+  });
+  
+  const transaction = new bsv.Transaction()
+  .from(utxo)
+  .to(sendTo.value, parseInt(amount.value))
+  .change(address)
+  .sign(privateKey);
+     
+  var p = document.querySelector("#rawTx");
+  p.innerHTML = transaction.toString();
+  
+  
+})
