@@ -12,6 +12,8 @@ let enterMnemonic = document.getElementById("enterMnemonic");
 let sendTransaction = document.getElementById('sendTransaction')
 let sendTo = document.getElementById('sendToText')
 let amount = document.getElementById('amountText')
+let rawTxText = document.getElementById('rawTxText')
+let pushTxText = document.getElementById('pushTxText')
 
 let num = 0;
 let qrcodeNew = new QRCode("qrcode");
@@ -139,8 +141,67 @@ generateMnemonic.addEventListener("click", function () {
 
 
 ////////////// Transaction Upgrade///////////////
+////////////////////////////////////////////////
 
+/*
+https.get('https://api.mattercloud.net/api/v3/main/address/${address.toString()}/utxo', (res) => {
+  let data = "";
+  res.on('data', (chunk) => {
+    data += chunk
+  })
+  res.on('end', ()=> {
+    let resp = JSON.parse(data)
+  })
+})
+*/
+
+let rawTX
 sendTransaction.addEventListener('click', function () {
+  var config = {
+    safe: true,
+    data: ["Satolearn"],
+    pay: {
+       key: privateKey ,
+       rpc: "https://api.mattercloud.net",
+       feeb: 0.5,
+       to: [{
+        address: sendTo.value,
+        value: parseInt(amount.value) 
+       }]
+   }
+   }
+
+setTimeout(() => {
+  filepay.build(config, function(error, tx) {
+        
+    //rawTxText.innerHTML = tx.toString(); 
+    rawTX = tx.toString()
+    console.log(rawTX)
+});
+}, 1000);
+
+
+setTimeout(() => {
+  const pushTx = async () => {
+    const res = await axios.post(
+          "https://merchantapi.taal.com/mapi/tx",
+          { rawtx: rawTX },
+          {
+            headers: {
+              "content-type": "application/json"
+            }
+          }
+        );
+        let txData = res.data;
+        let txid = txData.payload;
+        console.log(txid)
+        //pushTxText.innerHTML = txid;
+    };
+        
+    pushTx();
+}, 2000);
+
+  /*
   console.log(address)
   console.log(sendTo.value)
   console.log(amount.value)
@@ -162,5 +223,9 @@ sendTransaction.addEventListener('click', function () {
   var p = document.querySelector("#rawTx");
   p.innerHTML = transaction.toString();
   
-  
+  */
 })
+
+
+
+
