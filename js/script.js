@@ -12,8 +12,8 @@ let enterMnemonic = document.getElementById("enterMnemonic");
 let sendTransaction = document.getElementById('sendTransaction')
 let sendTo = document.getElementById('sendToText')
 let amount = document.getElementById('amountText')
-let rawTxText = document.getElementById('rawTxText')
 let pushTxText = document.getElementById('pushTxText')
+let txExplorer = document.getElementById('txExplorer')
 
 let num = 0;
 let qrcodeNew = new QRCode("qrcode");
@@ -143,19 +143,8 @@ generateMnemonic.addEventListener("click", function () {
 ////////////// Transaction Upgrade///////////////
 ////////////////////////////////////////////////
 
-/*
-https.get('https://api.mattercloud.net/api/v3/main/address/${address.toString()}/utxo', (res) => {
-  let data = "";
-  res.on('data', (chunk) => {
-    data += chunk
-  })
-  res.on('end', ()=> {
-    let resp = JSON.parse(data)
-  })
-})
-*/
-
 let rawTX
+let txidText
 sendTransaction.addEventListener('click', function () {
   var config = {
     safe: true,
@@ -169,21 +158,20 @@ sendTransaction.addEventListener('click', function () {
         value: parseInt(amount.value) 
        }]
    }
-   }
+  }
 
-setTimeout(() => {
+
   filepay.build(config, function(error, tx) {
         
     //rawTxText.innerHTML = tx.toString(); 
     rawTX = tx.toString()
-    console.log(rawTX)
-});
-}, 1000);
+    console.log(rawTX) 
+    pushTx();
+  });
 
 
-setTimeout(() => {
-  const pushTx = async () => {
-    const res = await axios.post(
+const pushTx = async () => {
+  const res = await axios.post(
           "https://merchantapi.taal.com/mapi/tx",
           { rawtx: rawTX },
           {
@@ -194,38 +182,18 @@ setTimeout(() => {
         );
         let txData = res.data;
         let txid = txData.payload;
+        txidText = txid.slice(69,133)
         console.log(txid)
-        //pushTxText.innerHTML = txid;
-    };
-        
-    pushTx();
-}, 2000);
-
-  /*
-  console.log(address)
-  console.log(sendTo.value)
-  console.log(amount.value)
-  console.log(privateKey)
-  const utxo = new bsv.Transaction.UnspentOutput({
-    "txId" : "bf14b65d1627f665f21bf656c5b3a7e99d8237cf0e038a1a46bf704524ab5bcf",
-    "outputIndex" : 2,
-    "address" : "1C3ifsTFkfP1RSBSXcV117iyrFnv2gwZCn",
-    "script" : "76a914792d00036023fdbd165b6947e4f7934ac9f1d55088ac",
-    "satoshis" : 327450
-  });
-  
-  const transaction = new bsv.Transaction()
-  .from(utxo)
-  .to(sendTo.value, parseInt(amount.value))
-  .change(address)
-  .sign(privateKey);
-     
-  var p = document.querySelector("#rawTx");
-  p.innerHTML = transaction.toString();
-  
-  */
+        console.log(txid.slice(69,133))
+        pushTxText.innerHTML = txidText
+  };
 })
 
-
+txExplorer.addEventListener('click', function() {
+  console.log(txidText)
+  window.open(
+    "https://whatsonchain.com/tx/"+ txidText, "_blank"
+  )
+})
 
 
