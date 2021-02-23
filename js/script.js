@@ -9,21 +9,10 @@ let publicKeyText = document.getElementById("publicKeyText");
 let addressText = document.getElementById("addressText");
 let qrcode = document.getElementById("qrcode");
 let enterMnemonic = document.getElementById("enterMnemonic");
-let sendTransaction = document.getElementById('sendTransaction')
-let sendTo = document.getElementById('sendToText')
-let amount = document.getElementById('amountText')
-let pushTxText = document.getElementById('pushTxText')
-let txExplorer = document.getElementById('txExplorer')
 
 let num = 0;
 let qrcodeNew = new QRCode("qrcode");
-let address,
-  addressQr,
-  privateKey,
-  publicKey,
-  hdPrivateKey,
-  words,
-  mnemonic;
+let address, addressQr, privateKey, publicKey, hdPrivateKey, words, mnemonic;
 
 slider.oninput = function () {
   slider.innerHTML = this.value;
@@ -75,7 +64,6 @@ const derivationPath = () => {
   refreshBalance();
 };
 
-
 const refreshBalance = function () {
   let config = {
     method: "get",
@@ -114,7 +102,7 @@ const submitMnemonic = function () {
   generateQr();
 
   refreshBalance();
-  console.log(publicKey.toString())
+  console.log(publicKey.toString());
 };
 
 generateMnemonic.addEventListener("click", function () {
@@ -139,61 +127,79 @@ generateMnemonic.addEventListener("click", function () {
   refreshBalance();
 });
 
-
 ////////////// Transaction Upgrade///////////////
 ////////////////////////////////////////////////
 
-let rawTX
-let txidText
-sendTransaction.addEventListener('click', function () {
+//declare variables
+let sendTransaction = document.getElementById("sendTransaction");
+let sendTo = document.getElementById("sendToText");
+let amount = document.getElementById("amountText");
+let pushTxText = document.getElementById("pushTxText");
+let txExplorer = document.getElementById("txExplorer");
+let txBox = document.getElementById("txBox");
+let rawTX;
+let txidText;
+
+sendTransaction.addEventListener("click", function () {
   var config = {
     safe: true,
     data: ["Satolearn"],
     pay: {
-       key: privateKey ,
-       rpc: "https://api.mattercloud.net",
-       feeb: 0.5,
-       to: [{
-        address: sendTo.value,
-        value: parseInt(amount.value) 
-       }]
-   }
-  }
+      key: privateKey,
+      rpc: "https://api.mattercloud.net",
+      feeb: 0.5,
+      to: [
+        {
+          address: sendTo.value,
+          value: parseInt(amount.value),
+        },
+      ],
+    },
+  };
 
-
-  filepay.build(config, function(error, tx) {
-        
-    //rawTxText.innerHTML = tx.toString(); 
-    rawTX = tx.toString()
-    console.log(rawTX) 
+  filepay.build(config, function (error, tx) {
+    //rawTxText.innerHTML = tx.toString();
+    rawTX = tx.toString();
+    console.log(rawTX);
     pushTx();
   });
 
+  const pushTx = async () => {
+    const res = await axios.post(
+      "https://merchantapi.taal.com/mapi/tx",
+      { rawtx: rawTX },
+      {
+        headers: {
+          "content-type": "application/json",
+        },
+      }
+    );
+    let txData = res.data;
+    let txid = txData.payload;
+    txidText = txid.slice(69, 133);
+    console.log(txid);
+    console.log(txid.slice(69, 133));
 
-const pushTx = async () => {
-  const res = await axios.post(
-          "https://merchantapi.taal.com/mapi/tx",
-          { rawtx: rawTX },
-          {
-            headers: {
-              "content-type": "application/json"
-            }
-          }
-        );
-        let txData = res.data;
-        let txid = txData.payload;
-        txidText = txid.slice(69,133)
-        console.log(txid)
-        console.log(txid.slice(69,133))
-        pushTxText.innerHTML = txidText
+    // create new div element to store new tx ID
+    let newTx = document.createElement("div");
+    txBox.appendChild(newTx);
+    newTx.setAttribute(
+      "class",
+      `"class="uk-card uk-card-default uk-card-body uk-card-small cardColour uk-margin-top" "`
+    );
+    newTx.innerHTML = txidText;
+
+    // create new world icon for each new transaction element - FIX - need to create id matching previous txs +  DRY fixes on set attributes
+    let newExplorerIcon = document.createElement("span");
+    newTx.appendChild(newExplorerIcon);
+    newExplorerIcon.setAttribute("class", "uk-margin-small-right iconRight");
+    newExplorerIcon.setAttribute("uk-icon", "world");
+    newExplorerIcon.setAttribute("style", "cursor: pointer");
+    newExplorerIcon.setAttribute("id", "txExplorer");
+    newExplorerIcon.setAttribute("onClick", "openExplorer()");
   };
-})
+});
 
-txExplorer.addEventListener('click', function() {
-  console.log(txidText)
-  window.open(
-    "https://whatsonchain.com/tx/"+ txidText, "_blank"
-  )
-})
-
-
+let openExplorer = function () {
+  window.open("https://whatsonchain.com/tx/" + txidText, "_blank");
+};
