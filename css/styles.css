@@ -45,7 +45,7 @@
   cursor: pointer; /* Cursor on hover */
 }
 input {
-  width: 90%;
+  width: 100%;
   text-align: center;
 }
 form {
@@ -60,6 +60,5 @@ form {
   #bitcoinArtImg {
     width: 80% !important;
     margin-left: 24% !important;
-
   }
 }

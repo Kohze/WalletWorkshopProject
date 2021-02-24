@@ -72,7 +72,7 @@ const refreshBalance = function () {
       address +
       "/balance",
   };
-
+  console.log(config);
   axios(config).then((response) => {
     let data = JSON.stringify(response.data);
     console.log(data);
@@ -139,6 +139,8 @@ let txExplorer = document.getElementById("txExplorer");
 let txBox = document.getElementById("txBox");
 let rawTX;
 let txidText;
+let newTx;
+let num2 = 0;
 
 sendTransaction.addEventListener("click", function () {
   var config = {
@@ -158,7 +160,6 @@ sendTransaction.addEventListener("click", function () {
   };
 
   filepay.build(config, function (error, tx) {
-    //rawTxText.innerHTML = tx.toString();
     rawTX = tx.toString();
     console.log(rawTX);
     pushTx();
@@ -181,25 +182,35 @@ sendTransaction.addEventListener("click", function () {
     console.log(txid.slice(69, 133));
 
     // create new div element to store new tx ID
-    let newTx = document.createElement("div");
+    newTx = document.createElement("div");
     txBox.appendChild(newTx);
     newTx.setAttribute(
       "class",
-      `"class="uk-card uk-card-default uk-card-body uk-card-small cardColour uk-margin-top" "`
+      `"class="uk-card uk-card-default uk-card-body uk-card-small uk-margin-top newTx" "`
     );
+
+    newTx.setAttribute("id", `tx${num2}`);
+    newTx.setAttribute("style", "margin: 20px; word-wrap: break-word");
     newTx.innerHTML = txidText;
 
-    // create new world icon for each new transaction element - FIX - need to create id matching previous txs +  DRY fixes on set attributes
+    // create new world icon for each new transaction element
     let newExplorerIcon = document.createElement("span");
     newTx.appendChild(newExplorerIcon);
     newExplorerIcon.setAttribute("class", "uk-margin-small-right iconRight");
     newExplorerIcon.setAttribute("uk-icon", "world");
     newExplorerIcon.setAttribute("style", "cursor: pointer");
-    newExplorerIcon.setAttribute("id", "txExplorer");
-    newExplorerIcon.setAttribute("onClick", "openExplorer()");
+    newExplorerIcon.setAttribute("id", `txExplorer${num2}`);
+
+    // add event listener function to open block explorer with relevant txid
+    document
+      .getElementById(`txExplorer${num2}`)
+      .addEventListener("click", function () {
+        window.open(
+          "https://whatsonchain.com/tx/" +
+            this.parentElement.innerHTML.slice(0, 64),
+          "_blank"
+        );
+      });
+    num2++;
   };
 });
-
-let openExplorer = function () {
-  window.open("https://whatsonchain.com/tx/" + txidText, "_blank");
-};

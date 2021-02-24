@@ -189,61 +189,95 @@
         </div>
       </div>
       <div class="uk-grid-item-match" style="text-align: center; height: 50%">
+
+        <!--
         <div
-          class="uk-card uk-card-default uk-card-body uk-card-small cardColour"
+          class="uk-card uk-card-default uk-card-body uk-card-small cardColour" 
         >
+        
           Send to Address
 
-          <form id="sendTo" action="">
+          <form id="sendTo "   action="">
+            
             <div class="input-container">
+              
               <input
                 type="text"
                 id="sendToText"
-                style="word-wrap: break-word"
+                style="word-wrap: break-word; "
                 value=""
               />
-              <span
-                class="uk-margin-small-right iconRight"
-                uk-icon="copy"
-                style="cursor: pointer"
-                id="sendToCopy"
-              ></span>
+              
+              
             </div>
           </form>
         </div>
         <div
-          class="uk-card uk-card-default uk-card-body uk-card-small cardColour uk-margin-top"
+          class="uk-card uk-card-default uk-card-body uk-card-small cardColour uk-margin-top" 
         >
+        <div style="width: 50%; display: inline;">
           Amount
 
-          <form id="amount" action="">
+          <form id="amount " action="" >
             <div class="input-container">
               <input
                 onsubmit="return false"
                 oninput=""
                 type="text"
                 id="amountText"
-                style="word-wrap: break-word"
-                value=""
+                style="word-wrap: break-word;"
+                value=""  
               />
-              <span
-                class="uk-margin-small-right iconRight"
-                uk-icon="copy"
-                style="cursor: pointer"
-                id="amountCopy"
-              ></span>
+              
             </div>
           </form>
         </div>
+        <div >
+          <button id="sendTransaction">Send</button>
+        </div>    
+        </div> 
+        -->
         <div
-          class="uk-card uk-card-default uk-card-body uk-card-small cardColour uk-margin-top"
-        >
-      <button id="sendTransaction">Send</button></div>
+        class="uk-card uk-card-default uk-card-body uk-card-small cardColour" 
+      >  
+       <div style="width: 68%; display: inline-block;">Send to Address
+        <form id="sendTo"  style="width: 100%;  " action="">     
+          <div class="input-container">          
+            <input
+              type="text"
+              id="sendToText"
+              style="word-wrap: break-word; "
+              value=""
+            />  
+            
+          </div>
+        </form>
+      </div>
+      <div style="width: 30%; display: inline-block;">Amount
+        <form id="amount " action="" style="width: 100%; " >
+          <div class="input-container">
+            <input
+              onsubmit="return false"
+              oninput=""
+              type="text"
+              id="amountText"
+              style="word-wrap: break-word;"
+              value=""
+              
+            />
+            
+          </div>
+        </form>
+        
+      </div>
+      <div >
+        <button style="margin-left: 70%" id="sendTransaction">Send</button>
+      </div>
+      </div>
       
-     
       <div id="txBox"
           class="uk-card uk-card-default uk-card-body uk-card-small cardColour uk-margin-top"
-          style="height: 40vh; overflow: scroll;" 
+          style="height: 627px; overflow: scroll;" 
         >
       
     </div>
