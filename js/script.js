@@ -7,7 +7,7 @@ let hdPrivateKeyText = document.getElementById("hdPrivateKeyText");
 let privateKeyText = document.getElementById("privateKeyText");
 let publicKeyText = document.getElementById("publicKeyText");
 let addressText = document.getElementById("addressText");
-let qrcode = document.getElementById("qrcode");
+let qrcode = document.getElementById("qrModal");
 let enterMnemonic = document.getElementById("enterMnemonic");
 
 let num = 0;
@@ -212,5 +212,20 @@ sendTransaction.addEventListener("click", function () {
         );
       });
     num2++;
+    utxoData();
   };
 });
+
+// get utxo data from address
+
+const utxoData = function () {
+  let config = {
+    method: "get",
+    url: `https://api.mattercloud.net/api/v3/main/address/${address}/utxo`,
+  };
+  console.log(config);
+  axios(config).then((response) => {
+    let data = JSON.stringify(response.data);
+    console.log(data);
+  });
+};
