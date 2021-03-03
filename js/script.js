@@ -72,7 +72,6 @@ const refreshBalance = function () {
       address +
       "/balance",
   };
-  console.log(config);
   axios(config).then((response) => {
     let data = JSON.stringify(response.data);
     console.log(data);
@@ -102,7 +101,6 @@ const submitMnemonic = function () {
   generateQr();
 
   refreshBalance();
-  console.log(publicKey.toString());
 };
 
 generateMnemonic.addEventListener("click", function () {
@@ -134,13 +132,19 @@ generateMnemonic.addEventListener("click", function () {
 let sendTransaction = document.getElementById("sendTransaction");
 let sendTo = document.getElementById("sendToText");
 let amount = document.getElementById("amountText");
-let pushTxText = document.getElementById("pushTxText");
-let txExplorer = document.getElementById("txExplorer");
+//let pushTxText = document.getElementById("pushTxText");
+//let txExplorer = document.getElementById("txExplorer");
+
 let txBox = document.getElementById("txBox");
+let txBoxSatoshis = document.getElementById('txBox__satoshis')
+let txBoxTxid = document.getElementById('txBox__txid')
+let txBoxVout = document.getElementById('txBox__vout')
+let txBoxScriptPK = document.getElementById('txBox__scriptPK')
+
 let rawTX;
-let txidText;
 let newTx;
 let num2 = 0;
+//let txidText;
 
 sendTransaction.addEventListener("click", function () {
   var config = {
@@ -174,8 +178,115 @@ sendTransaction.addEventListener("click", function () {
           "content-type": "application/json",
         },
       }
+      
     );
+    // after pushing a transaction call function to get new utxo data --
+     utxoData()
+   
     let txData = res.data;
+      console.log(txData);
+    let txid = txData.payload;
+      console.log(txid);
+
+  };
+});
+
+// function to get utxo data from address
+const utxoData = function () {
+  let config = {
+    method: "get",
+    url: `https://api.mattercloud.net/api/v3/main/address/${address}/utxo`,
+  };
+  axios(config).then((response) => {
+    let data = JSON.stringify(response.data);
+    //console.log(data)
+
+    let utxoArray = response.data;
+    console.log(utxoArray)
+
+    let utxoArrayUI = [...utxoArray]
+    //let utxoArrayUI = utxoArray.map((x) => x)
+    console.log(utxoArrayUI)
+    
+    // function filter using two arrays to match differences
+    // if tx output txid = txBoxTxid.innerHTML animate red opacity
+    const filterArray = utxoArrayUI.filter(value => utxoArray.includes(value))
+
+    console.log(filterArray)
+    // refresh UTXO divs
+
+
+    // refresh the UI -- utxoDiv()
+    // create utxo divs with unique ID number -- utxoDiv()
+    
+    const utxoDiv = function () {
+
+      //reset DIVs on refresh of UTXO list
+      while (txBoxSatoshis.firstChild) {
+        txBoxSatoshis.removeChild(txBoxSatoshis.firstChild)
+    } 
+      while (txBoxTxid.firstChild) {
+      txBoxTxid.removeChild(txBoxTxid.firstChild)
+    } 
+      while (txBoxVout.firstChild) {
+      txBoxVout.removeChild(txBoxVout.firstChild)
+    } 
+      while (txBoxScriptPK.firstChild) {
+      txBoxScriptPK.removeChild(txBoxScriptPK.firstChild)
+    } 
+    //map UTXO array to add in DIVs for 4 object values per array index
+      utxoArray.map(utxoArrayUI => {    
+        txBox1 = document.createElement("div");
+        txBox2 = document.createElement("div");
+        txBox3 = document.createElement("div");
+        txBox4 = document.createElement("div");
+
+        txBoxSatoshis.appendChild(txBox1); 
+        txBox1.setAttribute("id", `tx${num2}`);
+        txBox1.setAttribute("style", "min-height: 50px; max-height: 50px; padding: 10px; background-color: orange");
+        txBox1.innerHTML = utxoArrayUI.satoshis;
+
+        txBoxTxid.appendChild(txBox2); 
+        txBox2.setAttribute("id", `tx${num2}`);
+        txBox2.setAttribute("style", "word-wrap: break-word; min-height: 50px; max-height: 50px; padding: 10px; background-color: blue; cursor: pointer");
+        txBox2.innerHTML = utxoArrayUI.txid;
+        txBox2.addEventListener('click', function() {
+          window.open(
+            "https://whatsonchain.com/tx/" +
+              utxoArrayUI.txid,
+            "_blank"
+          );
+        })
+
+        txBoxVout.appendChild(txBox3); 
+        txBox3.setAttribute("id", `tx${num2}`);
+        txBox3.setAttribute("style", "word-wrap: break-word; min-height: 50px; max-height: 50px; padding: 10px; background-color: green");
+        txBox3.innerHTML = utxoArrayUI.vout;
+
+        txBoxScriptPK.appendChild(txBox4); 
+        txBox4.setAttribute("id", `tx${num2}`);
+        txBox4.setAttribute("style", "word-wrap: break-word; min-height: 50px; max-height: 50px; padding: 10px;  background-color: purple");
+        txBox4.innerHTML = utxoArrayUI.scriptPubKey;
+        num2++
+        console.log(utxoArrayUI.txid)
+        })
+      }
+      
+      utxoDiv()
+
+    })
+    
+  };
+
+
+
+
+
+
+///////////// TEST SAMPLE CODE////////////
+/*
+    let txData = res.data;
+    console.log(txData);
     let txid = txData.payload;
     txidText = txid.slice(69, 133);
     console.log(txid);
@@ -212,20 +323,136 @@ sendTransaction.addEventListener("click", function () {
         );
       });
     num2++;
-    utxoData();
-  };
-});
+*/
 
-// get utxo data from address
+/*
+    const utxoDiv = function () {
+      utxoArrayUI.map(utxoArrayUI => {    
+        newTx = document.createElement("div");
+        txBox.appendChild(newTx);
+        newTx.setAttribute(
+          "class",
+          `"class="uk-card uk-card-default uk-card-body uk-card-small uk-margin-top newTx" "`
+        );
+        newTx.setAttribute("id", `tx${num2}`);
+        newTx.setAttribute("style", "margin: 20px; word-wrap: break-word");
+        newTx.innerHTML = utxoArrayUI.amount;
+        num2++
+        console.log(utxoArrayUI.txid)
 
-const utxoData = function () {
-  let config = {
-    method: "get",
-    url: `https://api.mattercloud.net/api/v3/main/address/${address}/utxo`,
-  };
-  console.log(config);
-  axios(config).then((response) => {
-    let data = JSON.stringify(response.data);
-    console.log(data);
-  });
-};
+          setTimeout(() => {
+            for (let a = 0; a < utxoArray.length; a++)
+          if (newTx.innerHTML == utxoArray[a].txid) {
+            console.log(`match`);
+            console.log(utxoArray[a].txid)
+            newTx.style.color = "green"                      
+          } else {
+            newTx.style.color = "red"                    
+          } 
+          }, 2000);   
+      }
+    )}
+*/
+
+/* 
+    const filterArray = utxoArrayUI.filter(value => utxoArray.includes(value))
+
+    console.log(filterArray)
+*/
+
+/*
+    loopArrays = function() {
+      for (let a = 0; a < utxoArray.length; a++)
+          if (newTx.innerHTML == utxoArray[a].txid) {
+            console.log(`match`);
+            console.log(utxoArray[a].txid)
+            newTx.style.color = "green"                   
+          } else {
+            newTx.style.color = "red"             
+          } 
+    }
+    setTimeout(() => {
+      loopArrays()
+    }, 2000);
+*/
+
+/*       
+const checkArray = function() {
+
+  for (let i = 0; i < utxoArray.length; i++) {
+    for (let a = 0; a < utxoArrayUI.length; a++)
+      if (utxoArrayUI[i].includes(utxoArray[a])) {
+        console.log(
+          `we found a match array1 ${utxoArrayUI[i]} and array2 ${utxoArray[a]}`
+        );
+      } else {
+        console.log("no match");  
+      }
+  }
+}
+ // Replace while loop with for loop check if TXID matches utxoArray from data source. Use "ID" attribute in loop to check over all innerHTML to see if it matches current UTXO txids. 
+    // if utxoArray element != current source Array then remove div.
+    // add in another if statment where if current array does not match to arrayUI then add element.
+
+    
+    //checkArray()
+*/
+     
+    
+    
+/* 
+    loopArrays = function() {
+      for (let a = 0; a < utxoArray.length; a++)
+          if (newTx.innerHTML == utxoArray[a].txid) {
+            console.log(`match`);
+            console.log(utxoArray[a].txid)
+            newTx.style.color = "green"            
+          } else {
+            newTx.style.color = "red"            
+          } 
+    }
+    setTimeout(() => {
+      loopArrays()
+    }, 2000);
+*/
+
+/*
+    const loopArray = function() {
+        let i;
+        let num3 = 0
+        for(i = 0; i < utxoArrayUI.length; i++) {
+          newTx = document.createElement("div");
+      txBox.appendChild(newTx);
+      newTx.setAttribute(
+        "class",
+        `"class="uk-card uk-card-default uk-card-body uk-card-small uk-margin-top newTx" "`
+      );
+      newTx.setAttribute("id", `tx${num3}`);
+      
+      newTx.setAttribute("style", "margin: 20px; word-wrap: break-word");
+      newTx.innerHTML = utxoArrayUI.txid;
+      num3++
+      
+        }
+      }
+      loopArray()
+*/
+
+    
+/*
+    utxoArrayUI.forEach((element) => {
+      newTx = document.createElement("div");
+      txBox.appendChild(newTx);
+      newTx.setAttribute(
+        "class",
+        `"class="uk-card uk-card-default uk-card-body uk-card-small uk-margin-top newTx" "`
+      );
+      newTx.setAttribute("id", `tx${num2}`);
+      newTx.setAttribute("style", "margin: 20px; word-wrap: break-word");
+      newTx.innerHTML = element.txid;
+      num++
+      
+    });
+*/
+
+

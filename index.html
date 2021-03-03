@@ -14,9 +14,9 @@
       type="text/javascript"
       src="js/bsv-mnemonic1.5.0/bsv-mnemonic.min.js"
     ></script>
-    <script src="js/sweetalert2.all.min.js"></script>
+    <script type="text/javascript" src="js/sweetalert2.all.min.js"></script>
     <script type="text/javascript" src="js/axios.min.js"></script>
-    <script src='https://unpkg.com/filepay@2.0.3/dist/filepay.min.js'></script>
+    <script type="text/javascript" src="js/filepay.min.js"></script>
   </head>
   <body>
     <nav class="uk-navbar-container navColour" uk-navbar>
@@ -249,10 +249,26 @@
       <div style=" height : 100%">
         <div id="txBox"
           class="uk-card uk-card-default uk-card-body uk-card-small cardColour uk-margin-top"
-          style="height: 654px; overflow: scroll;" 
-        >
-    </div>
+          style="height: 654px; display: flex; color: aliceblue; padding: 5px" 
+          >
+
+        <div style="display: flex; width: 100%; overflow: auto; font-size: 12px; padding-bottom: 15px;">
+          <div style="width: 13%;  background-color: orange; ">satoshis
+            <div id="txBox__satoshis" ></div>
+          </div>
+            <div style="width: 8%;  background-color: green;">vout
+            <div id="txBox__vout" ></div>
+          </div>
+          <div style="width: 43%;  background-color: blue;">txid
+            <div id="txBox__txid" ></div>
+          </div>
+          <div style="width: 36%;  background-color: purple;">scriptPubKey
+            <div id="txBox__scriptPK" ></div>
+          </div>
+        </div>
       </div>
+    </div>
+    </div>
       
     </div>
     <script>
