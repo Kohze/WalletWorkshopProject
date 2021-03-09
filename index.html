@@ -27,19 +27,19 @@
       </div>
     </nav>
     <div class="qrModal">
-      
-      <div class="modal-content" >
+      <div class="modal-content">
         <span class="close">&times;</span>
-          <div
-            class="qrDivClass"
-            id="qrcode"
-            style="  display: block;
+        <div
+          class="qrDivClass"
+          id="qrcode"
+          style="
+            display: block;
             margin-left: 64px;
             margin-right: auto;
             margin-top: 64px;
             width: 80%;
-            "
-          ></div>
+          "
+        ></div>
       </div>
     </div>
     <div
@@ -131,7 +131,6 @@
               ></span>
             </div>
           </form>
-    
         </div>
         <div
           id="publicKey"
@@ -162,8 +161,8 @@
           class="uk-card uk-card-default uk-card-body uk-margin-top uk-card-small cardColour"
         >
           Address
-        <img src="img/qrImage.png" id="qrIconImage" onclick="">
-        
+          <img src="img/qrImage.png" id="qrIconImage" onclick="" />
+
           <form action="">
             <div class="input-container">
               <input
@@ -186,11 +185,11 @@
           style="margin-bottom: 5%"
         >
           Balance<span
-          class="uk-margin-small-right iconRight"
-          uk-icon="qr"
-          onclick="refreshBalance()"
-          style="cursor: pointer"
-        ></span>
+            class="uk-margin-small-right iconRight"
+            uk-icon="qr"
+            onclick="refreshBalance()"
+            style="cursor: pointer"
+          ></span>
           <form action="">
             <div class="input-container">
               <input
@@ -210,66 +209,72 @@
           </form>
         </div>
       </div>
-      <div class="uk-grid-item-match" style="text-align: center; height: 50%">       
+      <div class="uk-grid-item-match" style="text-align: center; height: 50%">
         <div
-        class="uk-card uk-card-default uk-card-body uk-card-small cardColour" style="width: 100%;" 
-      >  
-       <div style="width: 62%; display: inline-block;">Send to Address
-        <form id="sendTo"  style="width: 100%;  " action="">     
-          <div class="input-container">          
-            <input
-              type="text"
-              id="sendToText"
-              style="word-wrap: break-word; "
-              value=""
-            />  
-            
+          class="uk-card uk-card-default uk-card-body uk-card-small cardColour"
+          style="width: 100%"
+        >
+          <div style="width: 62%; display: inline-block">
+            Send to Address
+            <form id="sendTo" style="width: 100%" action="">
+              <div class="input-container">
+                <input
+                  type="text"
+                  id="sendToText"
+                  style="word-wrap: break-word"
+                  value=""
+                />
+              </div>
+            </form>
           </div>
-        </form>
-      </div>
-      <div style="width: 18%; display: inline-block;">Amount
-        <form id="amount " action="" style="width: 100%; " >
-          <div class="input-container">
-            <input
-              onsubmit="return false"
-              oninput=""
-              type="text"
-              id="amountText"
-              style="word-wrap: break-word;"
-              value=""
-              
-            />
-            
+          <div style="width: 18%; display: inline-block">
+            Amount
+            <form id="amount " action="" style="width: 100%">
+              <div class="input-container">
+                <input
+                  onsubmit="return false"
+                  oninput=""
+                  type="text"
+                  id="amountText"
+                  style="word-wrap: break-word"
+                  value=""
+                />
+              </div>
+            </form>
           </div>
-        </form>
-      </div>
-      <button style=" display: inline-block; width: 16%;" id="sendTransaction">Send</button>
-      
-      </div>
-      <div style=" height : 100%">
-        <div id="txBox"
-          class="uk-card uk-card-default uk-card-body uk-card-small cardColour uk-margin-top"
-          style="height: 654px; display: flex; color: aliceblue; padding: 5px" 
+          <button
+            style="display: inline-block; width: 16%"
+            id="sendTransaction"
           >
-
-        <div style="display: flex; width: 100%; overflow: auto; font-size: 12px; padding-bottom: 15px;">
-          <div style="width: 13%;  background-color: orange; ">satoshis
-            <div id="txBox__satoshis" ></div>
+            Send
+          </button>
+        </div>
+        <div style="height: 100%">
+          <div
+            id="txBox"
+            class="uk-card uk-card-default uk-card-body uk-card-small cardColour uk-margin-top"
+            style="height: 654px; color: aliceblue; padding: 5px; overflow: auto"
+          >
+            <div     
+              style="
+                display: flex;
+                width: 100%;
+                overflow: auto;
+                font-size: 12px;     
+              "
+            >
+              <div style="width: 13%; background-color: orange">satoshis</div>
+              <div style="width: 8%; background-color: green">vout</div>
+              <div style="width: 43%; background-color: blue">txid</div>
+              <div style="width: 36%; background-color: purple">
+                scriptPubKey
+              </div>
+            </div>
+            <div id="utxoAppend" style="width: 100%; overflow: auto; font-size: 12px; display: inline-block;"></div>   
           </div>
-            <div style="width: 8%;  background-color: green;">vout
-            <div id="txBox__vout" ></div>
-          </div>
-          <div style="width: 43%;  background-color: blue;">txid
-            <div id="txBox__txid" ></div>
-          </div>
-          <div style="width: 36%;  background-color: purple;">scriptPubKey
-            <div id="txBox__scriptPK" ></div>
           </div>
         </div>
       </div>
-    </div>
-    </div>
-      
     </div>
     <script>
       var modal = document.querySelector(".qrModal");
@@ -321,7 +326,7 @@
         Swal.fire("", "Address Copied!", "success");
       }
       enterMnemonic.addEventListener("submit", function (e) {
-      e.preventDefault();
+        e.preventDefault();
       });
     </script>
     <script src="js/script.js"></script>
