@@ -101,6 +101,8 @@ const submitMnemonic = function () {
   generateQr();
 
   refreshBalance();
+
+  utxoData();
 };
 
 generateMnemonic.addEventListener("click", function () {
