@@ -103,6 +103,9 @@ const submitMnemonic = function () {
   refreshBalance();
 
   utxoData();
+  setTimeout(() => {
+    updateUtxo();
+  }, 2000);
 };
 
 generateMnemonic.addEventListener("click", function () {
@@ -138,12 +141,102 @@ let utxoAppend = document.getElementById("utxoAppend");
 
 let rawTX;
 let newTx;
-let utxoArrayUI = [];
-let utxoArray = [];
-let differenceArray;
-let x;
 
+let utxoArray = [];
+let utxoCombinedAmount = 0;
+let utxoArrayInput = [];
+
+////////////////////////////////////////////////////////////////////
+// function to get utxo data from address
+const utxoData = function () {
+  utxoArray = [];
+  let config = {
+    method: "get",
+    url: `https://api.mattercloud.net/api/v3/main/address/${address}/utxo`,
+  };
+  axios(config).then((response) => {
+    // UPDATE ARRAY OF UTXOS
+    utxoArray = response.data;
+    console.log(utxoArray);
+  });
+};
+
+/////////////////////////////////////////////////////////////
+// refresh UI and update utxo data
+const updateUtxo = function () {
+  while (utxoAppend.firstChild) {
+    utxoAppend.removeChild(utxoAppend.firstChild);
+  }
+  utxoArray.forEach(function (arr) {
+    const html = `
+        <div id="${
+          arr.txid + arr.scriptPubKey + arr.vout + arr.satoshis
+        }" style="display: flex; width: 100%">
+    
+          <div style="min-height: 50px; max-height: 50px; padding: 10px 0px; background-color: rgb(255, 165, 0, 0.3); min-width: 16%"><div style="padding: 10px">${
+            arr.satoshis
+          }</div> </div>
+    
+          <div style="word-wrap: break-word; min-height: 50px; max-height: 50px; padding: 10px 0px; background-color: rgba(0, 255, 0, 0.3); min-width: 9%"><div style="padding: 10px">${
+            arr.vout
+          }</div>
+           </div>
+    
+          <div 
+          style="word-wrap: break-word; min-height: 50px; max-height: 50px; padding:10px 0px; background-color: rgba(0, 0, 255, 0.3); cursor: pointer; min-width: 42%"><div style="padding: 10px">${
+            arr.txid
+          }</div>
+          </div>
+    
+          <div style="word-wrap: break-word; min-height: 50px; max-height: 50px; padding:10px 0px;  background-color: rgba(128,0,128,0.3); min-width: 33%"><div style="padding: 10px">${
+            arr.scriptPubKey
+          }</div>
+            
+           </div>
+    
+      </div> 
+        `;
+    utxoAppend.insertAdjacentHTML("beforeend", html);
+  });
+};
+
+///////////////////////////////////////////////////////////////////
+// create function to update the UI with timeout to fetch data
+const utxoUpdateUI = function () {
+  setTimeout(() => {
+    utxoData();
+  }, 1000);
+  setTimeout(() => {
+    updateUtxo();
+  }, 2000);
+};
+
+////////////////////////////////////////////////////////////////////
+// create function to see if the satoshis in the utxos are < send amount
+const checkSatoshis = function () {
+  utxoCombinedAmount = 0;
+  utxoArrayInput = [];
+  for (let i in utxoArray) {
+    if (utxoCombinedAmount < amount.value) {
+      let el = utxoArray[i];
+      utxoArrayInput.push({
+        txid: el.txid,
+        amount: el.value,
+        script: el.scriptPubKey,
+        vout: el.vout,
+      });
+      utxoCombinedAmount += el.value;
+    } else {
+      break;
+    }
+  }
+};
+
+/////////////////////////////////////////////////////
+// send transaction
 sendTransaction.addEventListener("click", function () {
+  checkSatoshis();
+
   var config = {
     safe: true,
     data: ["Satolearn"],
@@ -151,6 +244,7 @@ sendTransaction.addEventListener("click", function () {
       key: privateKey,
       rpc: "https://api.mattercloud.net",
       feeb: 0.5,
+      inputs: utxoArrayInput,
       to: [
         {
           address: sendTo.value,
@@ -160,9 +254,19 @@ sendTransaction.addEventListener("click", function () {
     },
   };
 
+  utxoArrayInput.forEach(function (a) {
+    let section = document.getElementById(
+      a.txid + a.script + a.vout + a.amount
+    );
+    section.style.color = "red";
+    section.style.opacity = 0;
+
+    section.style.transition = "opacity 3s linear 2.5s, color 1s linear 0s";
+  });
+
   filepay.build(config, function (error, tx) {
     rawTX = tx.toString();
-    console.log(rawTX);
+    //console.log(rawTX);
     pushTx();
   });
 
@@ -176,97 +280,12 @@ sendTransaction.addEventListener("click", function () {
         },
       }
     );
-    // after pushing a transaction call function to get new utxo data --
-
     let txData = res.data;
     console.log(txData);
     let txid = txData.payload;
     console.log(txid);
-
-    setTimeout(() => {
-      utxoData();
-    }, 1000);
   };
+  setTimeout(() => {
+    utxoUpdateUI();
+  }, 4000);
 });
-
-// function to get utxo data from address
-const utxoData = function () {
-  let config = {
-    method: "get",
-    url: `https://api.mattercloud.net/api/v3/main/address/${address}/utxo`,
-  };
-  axios(config).then((response) => {
-    let data = JSON.stringify(response.data);
-    console.log(data);
-
-    // UPDATE ARRAY OF UTXOS
-    utxoArray = response.data;
-    console.log(utxoArray);
-
-    x = utxoArray.map(function (a) {
-      return a.txid + a.scriptPubKey + a.vout + a.satoshis;
-    });
-    console.log(x);
-    console.log(utxoArrayUI);
-
-    // if array is empty then fill it with current data
-    if (utxoArrayUI === []) {
-      utxoArrayUI = [...x];
-    }
-    // check for over lap and animate difference
-    const arrayOverlap = function () {
-      differenceArray = utxoArrayUI.filter((value) => !x.includes(value));
-      console.log(differenceArray);
-
-      differenceArray.forEach(function (x) {
-        document.getElementById(x).style.border = "5px red solid";
-      });
-    };
-    // refresh UI and update utxo data
-    const updateUtxo = function () {
-      while (utxoAppend.firstChild) {
-        utxoAppend.removeChild(utxoAppend.firstChild);
-      }
-      utxoArrayUI.forEach(function (arr) {
-        const html = `
-        <div id="${arr}" style="display: flex">
-    
-          <div style="min-height: 50px; max-height: 50px; padding: 10px; background-color: orange; width: 13%">${arr.slice(
-            115,
-            arr.length
-          )} </div>
-    
-          <div style="word-wrap: break-word; min-height: 50px; max-height: 50px; padding: 10px; background-color: green; width: 8%">${arr.slice(
-            114,
-            115
-          )} </div>
-    
-          <div style="word-wrap: break-word; min-height: 50px; max-height: 50px; padding: 10px; background-color: blue; cursor: pointer; width: 43%">${arr.slice(
-            0,
-            64
-          )} </div>
-    
-          <div style="word-wrap: break-word; min-height: 50px; max-height: 50px; padding: 10px;  background-color: purple; width: 36%">${arr.slice(
-            64,
-            114
-          )} </div>
-    
-      </div>
-        
-        `;
-        utxoAppend.insertAdjacentHTML("beforeend", html);
-      });
-    };
-
-    setTimeout(() => {
-      arrayOverlap();
-    }, 1000);
-
-    // add in time out to allow animation
-    setTimeout(() => {
-      //update array and then update UI
-      utxoArrayUI = [...x];
-      updateUtxo();
-    }, 4000);
-  });
-};

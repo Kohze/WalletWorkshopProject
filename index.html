@@ -253,25 +253,60 @@
           <div
             id="txBox"
             class="uk-card uk-card-default uk-card-body uk-card-small cardColour uk-margin-top"
-            style="height: 654px; color: aliceblue; padding: 5px; overflow: auto"
+            style="
+              height: 654px;
+              color: black;
+
+              overflow: auto;
+            "
           >
-            <div     
-              style="
-                display: flex;
-                width: 100%;
-                overflow: auto;
-                font-size: 12px;     
-              "
-            >
-              <div style="width: 13%; background-color: orange">satoshis</div>
-              <div style="width: 8%; background-color: green">vout</div>
-              <div style="width: 43%; background-color: blue">txid</div>
-              <div style="width: 36%; background-color: purple">
+            <div style="display: flex; width: 100%; font-size: 12px">
+              <div
+                style="
+                  word-wrap: normal;
+                  width: 16%;
+                  background-color: rgb(255, 165, 0, 0.3);
+
+                  padding: 15px 0px;
+                "
+              >
+                satoshis
+              </div>
+              <div
+                style="
+                  word-wrap: normal;
+                  width: 9%;
+                  background-color: rgba(0, 255, 0, 0.3);
+                  padding: 15px 0px;
+                "
+              >
+                vout
+              </div>
+              <div
+                style="
+                  word-wrap: normal;
+                  width: 42%;
+                  background-color: rgba(0, 0, 255, 0.3);
+                  padding: 15px 0px;
+                "
+              >
+                txid
+              </div>
+              <div
+                style="
+                
+                  word-wrap: normal;
+                  width: 33%;
+                  background-color: rgba(128,0,128,0.3);
+                padding: 15px 0px ;
+s
+                "
+              >
                 scriptPubKey
               </div>
             </div>
-            <div id="utxoAppend" style="width: 100%; overflow: auto; font-size: 12px; display: inline-block;"></div>   
-          </div>
+
+            <div id="utxoAppend" style="font-size: 12px"></div>
           </div>
         </div>
       </div>
