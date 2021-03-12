@@ -139,6 +139,7 @@ let sendTransaction = document.getElementById("sendTransaction");
 let sendTo = document.getElementById("sendToText");
 let amount = document.getElementById("amountText");
 let utxoAppend = document.getElementById("utxoAppend");
+let loader = document.getElementById("loader");
 
 let rawTX;
 let utxoArray = [];
@@ -198,6 +199,8 @@ const updateUtxo = function () {
         `;
     utxoAppend.insertAdjacentHTML("beforeend", html);
   });
+  loader.style.visibility = "hidden";
+  sendTransaction.disabled = false;
 };
 
 //////////////////////////////////////////////////////////////////
@@ -266,7 +269,8 @@ sendTransaction.addEventListener("click", function () {
       ],
     },
   };
-
+  loader.style.visibility = "visible";
+  sendTransaction.disabled = true;
   ////////////////////////////////////////////////////////
   //animate utxo DIVs being used for the transaction
   animateDivs();
