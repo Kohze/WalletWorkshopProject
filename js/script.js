@@ -209,7 +209,6 @@ const animateDivs = function () {
     );
     section.style.color = "red";
     section.style.opacity = 0;
-
     section.style.transition = "opacity 3s linear 2.5s, color 1s linear 0s";
   });
 };
@@ -244,11 +243,54 @@ const checkSatoshis = function () {
   }
 };
 
+////////////////////////////////////////////////////////
+//push tx
+const pushTx = async () => {
+  const res = await axios.post(
+    "https://merchantapi.taal.com/mapi/tx",
+    { rawtx: rawTX },
+    {
+      headers: {
+        "content-type": "application/json",
+      },
+    }
+  );
+  //reset variables
+  txData = 0;
+  txid = 0;
+  txStatus = 0;
+
+  txData = res.data;
+  console.log(txData);
+  txid = txData.payload;
+
+  txStatus = JSON.parse(txid);
+  console.log(txStatus);
+
+  openExplorer = function () {
+    window.open(`https://whatsonchain.com/tx/${txStatus.txid}`);
+  };
+};
+
 /////////////////////////////////////////////////////
-// send transaction
+//successful transaction sequence
+const txSuccess = function () {
+  setTimeout(() => {
+    utxoUpdateUI();
+    refreshBalance();
+    setTimeout(() => {
+      loader.style.visibility = "hidden";
+      sendTransaction.disabled = false;
+      document.getElementById("hooray").play();
+      sentTxDisplay();
+    }, 1500);
+  }, 4000);
+};
+
+/////////////////////////////////////////////////////
+// send transaction with all function sequences
 sendTransaction.addEventListener("click", function () {
   checkSatoshis();
-
   var config = {
     safe: true,
     data: ["Satolearn"],
@@ -274,56 +316,21 @@ sendTransaction.addEventListener("click", function () {
     amount.value = "dust limit 135";
   } else {
     ///////////////////////////////////////////////////////
+
     //build tx
-    //add catch error make border red on send to address
-    filepay.build(config, function (error, tx) {
-      rawTX = tx.toString();
-      loader.style.visibility = "visible";
-      sendTransaction.disabled = true;
-      animateDivs();
-      pushTx();
-    });
-
-    ////////////////////////////////////////////////////////
-    //push transaction
-    const pushTx = async () => {
-      const res = await axios.post(
-        "https://merchantapi.taal.com/mapi/tx",
-        { rawtx: rawTX },
-        {
-          headers: {
-            "content-type": "application/json",
-          },
-        }
-      );
-      //reset variables
-      txData = 0;
-      txid = 0;
-      txStatus = 0;
-
-      txData = res.data;
-      console.log(txData);
-      txid = txData.payload;
-      console.log(txid);
-
-      txStatus = JSON.parse(txid);
-      console.log(txStatus);
-      console.log(txStatus.txid);
-
-      openExplorer = function () {
-        window.open(`https://whatsonchain.com/tx/${txStatus.txid}`);
-      };
-    };
-
-    setTimeout(() => {
-      utxoUpdateUI();
-      refreshBalance();
-      setTimeout(() => {
-        loader.style.visibility = "hidden";
-        sendTransaction.disabled = false;
-        document.getElementById("hooray").play();
-        sentTxDisplay();
-      }, 1500);
-    }, 4000);
+    //catch error make border red on send to address
+    try {
+      filepay.build(config, function (error, tx) {
+        rawTX = tx.toString();
+        loader.style.visibility = "visible";
+        sendTransaction.disabled = true;
+        animateDivs();
+        pushTx();
+        txSuccess();
+      });
+    } catch (e) {
+      console.log(e);
+      sendTo.style.outline = "red solid 1px";
+    }
   }
 });

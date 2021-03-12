@@ -228,6 +228,7 @@
                   id="sendToText"
                   style="word-wrap: break-word"
                   value=""
+                  onclick="clearSendTo()"
                 />
               </div>
             </form>
@@ -243,7 +244,7 @@
                   id="amountText"
                   style="word-wrap: break-word"
                   value=""
-                  onclick="clearText()"
+                  onclick="clearAmountText()"
                 />
               </div>
             </form>
@@ -379,10 +380,13 @@ s
       enterMnemonic.addEventListener("submit", function (e) {
         e.preventDefault();
       });
-      function clearText() {
+      function clearAmountText() {
         amountText.value = "";
         amount.style.outline = " none";
         amount.style.color = "black";
+      }
+      function clearSendTo() {
+        sendTo.style.outline = "none";
       }
     </script>
     <script src="js/script.js"></script>
