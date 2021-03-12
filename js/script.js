@@ -102,11 +102,7 @@ const submitMnemonic = function () {
 
   refreshBalance();
 
-  utxoData();
-
-  setTimeout(() => {
-    updateUtxo();
-  }, 1500);
+  utxoUpdateUI();
 };
 
 generateMnemonic.addEventListener("click", function () {
@@ -141,10 +137,14 @@ let amount = document.getElementById("amountText");
 let utxoAppend = document.getElementById("utxoAppend");
 let loader = document.getElementById("loader");
 
+let txData;
+let txid;
+let txStatus;
 let rawTX;
 let utxoArray = [];
 let utxoCombinedAmount = 0;
 let utxoArrayInput = [];
+let openExplorer;
 
 ////////////////////////////////////////////////////////////////////
 // function to get utxo data from address
@@ -156,7 +156,6 @@ const utxoData = function () {
     url: `https://api.mattercloud.net/api/v3/main/address/${address}/utxo`,
   };
   axios(config).then((response) => {
-    // UPDATE ARRAY OF UTXOS
     utxoArray = response.data;
     console.log(utxoArray);
   });
@@ -199,8 +198,6 @@ const updateUtxo = function () {
         `;
     utxoAppend.insertAdjacentHTML("beforeend", html);
   });
-  loader.style.visibility = "hidden";
-  sendTransaction.disabled = false;
 };
 
 //////////////////////////////////////////////////////////////////
@@ -221,7 +218,6 @@ const animateDivs = function () {
 // create function to update the UI with timeout to fetch data
 const utxoUpdateUI = function () {
   utxoData();
-
   setTimeout(() => {
     updateUtxo();
   }, 1500);
@@ -269,39 +265,65 @@ sendTransaction.addEventListener("click", function () {
       ],
     },
   };
-  loader.style.visibility = "visible";
-  sendTransaction.disabled = true;
-  ////////////////////////////////////////////////////////
-  //animate utxo DIVs being used for the transaction
-  animateDivs();
 
-  ///////////////////////////////////////////////////////
-  //build tx
-  filepay.build(config, function (error, tx) {
-    rawTX = tx.toString();
-    //console.log(rawTX);
-    pushTx();
-  });
+  //add if statement if send amount is too low *135 min dust limit
+  if (amount.value < 135) {
+    console.log("error 64 dust");
+    amount.style.outline = " solid red 1px";
+    amount.style.color = "red";
+    amount.value = "dust limit 135";
+  } else {
+    ///////////////////////////////////////////////////////
+    //build tx
+    //add catch error make border red on send to address
+    filepay.build(config, function (error, tx) {
+      rawTX = tx.toString();
+      loader.style.visibility = "visible";
+      sendTransaction.disabled = true;
+      animateDivs();
+      pushTx();
+    });
 
-  ////////////////////////////////////////////////////////
-  //push transaction
-  const pushTx = async () => {
-    const res = await axios.post(
-      "https://merchantapi.taal.com/mapi/tx",
-      { rawtx: rawTX },
-      {
-        headers: {
-          "content-type": "application/json",
-        },
-      }
-    );
-    let txData = res.data;
-    console.log(txData);
-    let txid = txData.payload;
-    console.log(txid);
-  };
-  setTimeout(() => {
-    utxoUpdateUI();
-    refreshBalance();
-  }, 4000);
+    ////////////////////////////////////////////////////////
+    //push transaction
+    const pushTx = async () => {
+      const res = await axios.post(
+        "https://merchantapi.taal.com/mapi/tx",
+        { rawtx: rawTX },
+        {
+          headers: {
+            "content-type": "application/json",
+          },
+        }
+      );
+      //reset variables
+      txData = 0;
+      txid = 0;
+      txStatus = 0;
+
+      txData = res.data;
+      console.log(txData);
+      txid = txData.payload;
+      console.log(txid);
+
+      txStatus = JSON.parse(txid);
+      console.log(txStatus);
+      console.log(txStatus.txid);
+
+      openExplorer = function () {
+        window.open(`https://whatsonchain.com/tx/${txStatus.txid}`);
+      };
+    };
+
+    setTimeout(() => {
+      utxoUpdateUI();
+      refreshBalance();
+      setTimeout(() => {
+        loader.style.visibility = "hidden";
+        sendTransaction.disabled = false;
+        document.getElementById("hooray").play();
+        sentTxDisplay();
+      }, 1500);
+    }, 4000);
+  }
 });

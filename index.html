@@ -19,6 +19,10 @@
     <script type="text/javascript" src="js/filepay.min.js"></script>
   </head>
   <body>
+    <audio controls="controls" hidden id="hooray">
+      <source src="sounds/highhorray.mp3" type="audio/ogg" />
+      <source src="sounds/highhorray.mp3" type="audio/mpeg" />
+    </audio>
     <nav class="uk-navbar-container navColour" uk-navbar>
       <div class="uk-navbar-center">
         <ul class="uk-navbar-nav">
@@ -239,6 +243,7 @@
                   id="amountText"
                   style="word-wrap: break-word"
                   value=""
+                  onclick="clearText()"
                 />
               </div>
             </form>
@@ -254,9 +259,18 @@
           <div
             id="txBox"
             class="uk-card uk-card-default uk-card-body uk-card-small cardColour uk-margin-top"
-            style="height: 654px; color: black; padding: 5px; overflow: auto"
+            style="height: 654px; color: ; padding: 10px; overflow: auto"
           >
-            <div style="display: flex; width: 100%; font-size: 12px">
+            Current UTXOs
+            <div
+              style="
+                margin-top: 10px;
+                color: black;
+                display: flex;
+                width: 100%;
+                font-size: 12px;
+              "
+            >
               <div
                 style="
                   word-wrap: normal;
@@ -302,7 +316,7 @@ s
               </div>
             </div>
 
-            <div id="utxoAppend" style="font-size: 12px"></div>
+            <div id="utxoAppend" style="color: black; font-size: 12px"></div>
           </div>
         </div>
       </div>
@@ -325,7 +339,13 @@ s
           modal.style.display = "none";
         }
       };
-
+      function sentTxDisplay() {
+        Swal.fire(
+          "Payment sent",
+          `<div style="margin-top: 20px">timestamp: ${txStatus.timestamp} </div> <br> <div onclick="openExplorer()" style="cursor: pointer; color: blue">txid: ${txStatus.txid} </div> <br> <div>minerId: ${txStatus.minerId}</div> <br> <div>signature: ${txData.signature}</div><br><div>publicKey: ${txData.publicKey}</div>`,
+          "success"
+        );
+      }
       function copyHD() {
         var copyText = hdPrivateKeyText;
         copyText.select();
@@ -359,6 +379,11 @@ s
       enterMnemonic.addEventListener("submit", function (e) {
         e.preventDefault();
       });
+      function clearText() {
+        amountText.value = "";
+        amount.style.outline = " none";
+        amount.style.color = "black";
+      }
     </script>
     <script src="js/script.js"></script>
   </body>
