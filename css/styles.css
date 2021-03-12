@@ -74,8 +74,9 @@ form {
 }
 
 .modal-content {
-  background-color: none;
-  margin: 35% auto;
+  background-color: white;
+  border-radius: 30px;
+  margin: 15% auto;
   padding: 20px;
   width: 400px;
   height: 400px;

@@ -103,9 +103,10 @@ const submitMnemonic = function () {
   refreshBalance();
 
   utxoData();
+
   setTimeout(() => {
     updateUtxo();
-  }, 2000);
+  }, 1500);
 };
 
 generateMnemonic.addEventListener("click", function () {
@@ -140,14 +141,13 @@ let amount = document.getElementById("amountText");
 let utxoAppend = document.getElementById("utxoAppend");
 
 let rawTX;
-let newTx;
-
 let utxoArray = [];
 let utxoCombinedAmount = 0;
 let utxoArrayInput = [];
 
 ////////////////////////////////////////////////////////////////////
 // function to get utxo data from address
+
 const utxoData = function () {
   utxoArray = [];
   let config = {
@@ -200,15 +200,28 @@ const updateUtxo = function () {
   });
 };
 
+//////////////////////////////////////////////////////////////////
+// animate utxo DIVs that are removed from utxo array
+const animateDivs = function () {
+  utxoArrayInput.forEach(function (a) {
+    let section = document.getElementById(
+      a.txid + a.script + a.vout + a.amount
+    );
+    section.style.color = "red";
+    section.style.opacity = 0;
+
+    section.style.transition = "opacity 3s linear 2.5s, color 1s linear 0s";
+  });
+};
+
 ///////////////////////////////////////////////////////////////////
 // create function to update the UI with timeout to fetch data
 const utxoUpdateUI = function () {
-  setTimeout(() => {
-    utxoData();
-  }, 1000);
+  utxoData();
+
   setTimeout(() => {
     updateUtxo();
-  }, 2000);
+  }, 1500);
 };
 
 ////////////////////////////////////////////////////////////////////
@@ -254,22 +267,20 @@ sendTransaction.addEventListener("click", function () {
     },
   };
 
-  utxoArrayInput.forEach(function (a) {
-    let section = document.getElementById(
-      a.txid + a.script + a.vout + a.amount
-    );
-    section.style.color = "red";
-    section.style.opacity = 0;
+  ////////////////////////////////////////////////////////
+  //animate utxo DIVs being used for the transaction
+  animateDivs();
 
-    section.style.transition = "opacity 3s linear 2.5s, color 1s linear 0s";
-  });
-
+  ///////////////////////////////////////////////////////
+  //build tx
   filepay.build(config, function (error, tx) {
     rawTX = tx.toString();
     //console.log(rawTX);
     pushTx();
   });
 
+  ////////////////////////////////////////////////////////
+  //push transaction
   const pushTx = async () => {
     const res = await axios.post(
       "https://merchantapi.taal.com/mapi/tx",
@@ -287,5 +298,6 @@ sendTransaction.addEventListener("click", function () {
   };
   setTimeout(() => {
     utxoUpdateUI();
+    refreshBalance();
   }, 4000);
 });
