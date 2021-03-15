@@ -125,6 +125,8 @@ generateMnemonic.addEventListener("click", function () {
   generateQr();
 
   refreshBalance();
+
+  utxoUpdateUI();
 });
 
 ////////////// Transaction Upgrade///////////////
@@ -281,7 +283,6 @@ const txSuccess = function () {
     setTimeout(() => {
       loader.style.visibility = "hidden";
       sendTransaction.disabled = false;
-      document.getElementById("hooray").play();
       sentTxDisplay();
     }, 1500);
   }, 4000);
